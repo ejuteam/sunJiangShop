@@ -34,7 +34,7 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import me.chanjar.weixin.common.error.WxErrorException;
 
 @Service
-public class QCodeService {
+public class QCodeService {/*
 	private static final Logger logger = LoggerFactory.getLogger(QCodeService.class);
 	
 	@Autowired
@@ -68,15 +68,15 @@ public class QCodeService {
 		return "";
 	}
 
-	/**
+	*//**
 	 * 创建商品分享图
 	 * 
 	 * @param shareUserId
 	 * @param goodId
 	 * @param goodPicUrl
 	 * @param goodName
-	 */
-	public String createGoodShareImage(Integer shareUserId,String goodId, String goodPicUrl, String goodName,BigDecimal counterPrice,BigDecimal retailPrice) {
+	 *//*
+	public String createGoodShareImage(Integer shareUserId,String goodId, String goodPicUrl, String goodName,BigDecimal retailPrice) {
 		if (!SystemConfig.isAutoCreateShareImage())
 			return "";
 		try {
@@ -88,7 +88,7 @@ public class QCodeService {
 			File file = wxMaService.getQrcodeService().createWxaCodeUnlimit(scene, "pages/index/index");
 			FileInputStream inputStream = new FileInputStream(file);
 			// 将商品图片，商品名字,商城名字画到模版图中
-			byte[] imageData = drawPicture(inputStream, goodPicUrl,goodName,counterPrice,retailPrice);
+			byte[] imageData = drawPicture(inputStream, goodPicUrl,goodName,retailPrice);
 			ByteArrayInputStream inputStream2 = new ByteArrayInputStream(imageData);
 			// 存储分享图
 			String url = storageService.store(inputStream2, imageData.length, "image/jpeg", getKeyName(goodId));
@@ -106,7 +106,7 @@ public class QCodeService {
 	}
 
 
-	/**
+	*//**
 	 * 将商品图片，商品名字画到模版图中
 	 *
 	 * @param qrCodeImg
@@ -117,8 +117,8 @@ public class QCodeService {
 	 *            商品名称
 	 * @return
 	 * @throws IOException
-	 */
-	private byte[] drawPicture(InputStream qrCodeImg, String goodPicUrl, String goodName,BigDecimal counterPrice,BigDecimal retailPrice) throws IOException {
+	 *//*
+	private byte[] drawPicture(InputStream qrCodeImg, String goodPicUrl, String goodName,BigDecimal retailPrice) throws IOException {
 		// 底图
 		ClassPathResource redResource = new ClassPathResource("back.png");
 		BufferedImage red = ImageIO.read(redResource.getInputStream());
@@ -154,7 +154,7 @@ public class QCodeService {
 		drawTextInImg(baseImage, "现价  ", 65, 787, colorComm, 24);
 		drawTextInImg(baseImage, "￥ ", 120, 787, priceColor, 24);
 		drawTextInImg(baseImage, retailPrice.toString(), 145, 787, priceColor, 34);
-		drawStrikethroughTextInImg(baseImage, counterPrice.toString(), 275, 787, colorComm, 24);
+		drawStrikethroughTextInImg(baseImage, 275, 787, colorComm, 24);
 		
 		
 		// 写上商城名称
@@ -228,11 +228,11 @@ public class QCodeService {
 		g2D.dispose();
 	}
 
-	/**
+	*//**
 	 * 根据用户创建用户的分享二维码
 	 * @param userId
 	 * @return
-	 */
+	 *//*
 	public String createShareUserImage(Integer userId) {
 		InputStream fileStream = null;
 		String url = null;
@@ -254,29 +254,29 @@ public class QCodeService {
 		return url;
 	}
 
-	/**
+	*//**
 	 * 分享商品二维码图片在OSS上面的名称
 	 * @param goodId
 	 * @return
-	 */
+	 *//*
 	private String getKeyName(String goodId) {
 		return "GOOD_QCODE_" + goodId + ".jpg";
 	}
 	
-	/**
+	*//**
 	 * 分享代理用户二维码图片在OSS上面的名称
 	 * @param userId
 	 * @return
-	 */
+	 *//*
 	private String getShareUserKey(Integer userId) {
 		return "USER_QCODE_" + userId + ".jpg";
 	}
 	
-	/**
+	*//**
 	 * 分享代理用户二维码图片在OSS上面的名称
 	 * @param topicId
 	 * @return
-	 */
+	 *//*
 	private String getTopicKey(Integer topicId) {
 		return "TOPIC_QCODE_" + topicId + ".jpg";
 	}
@@ -285,14 +285,14 @@ public class QCodeService {
 		return "BRAND_QCODE_" + brandId + ".jpg";
 	}
 	
-	/**
+	*//**
 	 * 活动主题的二维码图片生成
 	 * @param string
 	 * @param picUrl
 	 * @param subtitle
 	 * @param price
 	 * @return
-	 */
+	 *//*
 	public String createShareTopicImage(Integer topicId, String picUrl, String subtitle, BigDecimal price) {
 		if (!SystemConfig.isAutoCreateShareImage())
 			return "";
@@ -366,7 +366,7 @@ public class QCodeService {
 		return bs.toByteArray();
 	}
 
-	/**
+	*//**
 	 * 创建商品的分享海报
 	 * @param shareUserId
 	 * @param brandId
@@ -374,7 +374,7 @@ public class QCodeService {
 	 * @param name
 	 * @param defaultCategory
 	 * @return
-	 */
+	 *//*
 	public String createBrandImage(Integer shareUserId,Integer brandId, String picUrl, String name, String defaultCategory) {
 		if (!SystemConfig.isAutoCreateShareImage())
 			return "";
@@ -448,6 +448,6 @@ public class QCodeService {
 		// 最终byte数组
 		return bs.toByteArray();
 	}
-
+*/
 	
 }

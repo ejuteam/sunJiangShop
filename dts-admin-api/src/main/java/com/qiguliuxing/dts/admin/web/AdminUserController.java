@@ -104,7 +104,8 @@ public class AdminUserController {
 			 * 生成代理用户独有分享的二维码需要小程序已经上线，所以未上线小程序这里调用会异常
 			 * 建议通过后台参数控制，因为定制用户对这里的特殊性要求，本程序暂不做调整
 			 */
-			String shareUrl = qCodeService.createShareUserImage(userId);
+			//String shareUrl = qCodeService.createShareUserImage(userId);
+			String shareUrl = "";
 			
 			/**
 			 * 结算当前用户的订单佣金给其代理

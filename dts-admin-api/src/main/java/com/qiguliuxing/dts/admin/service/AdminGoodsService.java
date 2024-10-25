@@ -67,7 +67,7 @@ public class AdminGoodsService {
 	private AdminDataAuthService adminDataAuthService;
 
 	public Object list(String goodsSn, String name, Integer page, Integer limit, String sort, String order, List<Integer> brandIds) {
-		List<DtsGoods> goodsList = goodsService.querySelective(goodsSn, name, page, limit, sort, order, brandIds);
+		List<DtsGoods> goodsList = goodsService.queryGoodsList(goodsSn, name, page, limit);
 		long total = PageInfo.of(goodsList).getTotal();
 		Map<String, Object> data = new HashMap<>();
 		data.put("total", total);
@@ -178,8 +178,8 @@ public class AdminGoodsService {
 		}
 
 		// 将生成的分享图片地址写入数据库
-		String url = qCodeService.createGoodShareImage(null,goods.getId().toString(), goods.getPicUrl(), goods.getName(),goods.getCounterPrice(),goods.getRetailPrice());
-		goods.setShareUrl(url);
+		/*String url = qCodeService.createGoodShareImage(null,goods.getId().toString(), goods.getPicUrl(), goods.getName(),goods.getCounterPrice(),goods.getRetailPrice());
+		goods.setShareUrl(url);*/
 
 		// 商品基本信息表Dts_goods
 		if (goodsService.updateById(goods) == 0) {
@@ -223,7 +223,7 @@ public class AdminGoodsService {
 		}
 
 		Integer gid = goods.getId();
-		goodsService.deleteById(gid);
+		goodsService.deleteGoodsById(gid);
 		specificationService.deleteByGid(gid);
 		attributeService.deleteByGid(gid);
 		productService.deleteByGid(gid);
@@ -254,14 +254,14 @@ public class AdminGoodsService {
 		goodsService.add(goods);
 
 		// 将生成的分享图片地址写入数据库
-		String url = qCodeService.createGoodShareImage(null,goods.getId().toString(), goods.getPicUrl(), goods.getName(),goods.getCounterPrice(),goods.getRetailPrice());
+		/*String url = qCodeService.createGoodShareImage(null,goods.getId().toString(), goods.getPicUrl(), goods.getName(),goods.getRetailPrice());
 		if (!StringUtils.isEmpty(url)) {
-			goods.setShareUrl(url);
+			//goods.setShareUrl(url);
 			if (goodsService.updateById(goods) == 0) {
 				logger.error("商品管理->商品管理->上架错误:{}", "更新数据失败");
 				throw new RuntimeException("更新数据失败");
 			}
-		}
+		}*/
 
 		// 商品规格表Dts_goods_specification
 		for (DtsGoodsSpecification specification : specifications) {

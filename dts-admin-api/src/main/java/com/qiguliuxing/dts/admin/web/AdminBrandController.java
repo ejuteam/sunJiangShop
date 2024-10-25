@@ -122,7 +122,8 @@ public class AdminBrandController {
 		try {
 			//生成店铺的分享URL
 			String defaultCategory = brandService.getBrandCategory(brand.getDefaultCategoryId());
-			String shareUrl = qCodeService.createBrandImage(null,brand.getId(), brand.getPicUrl(), brand.getName(),defaultCategory);
+			//String shareUrl = qCodeService.createBrandImage(null,brand.getId(), brand.getPicUrl(), brand.getName(),defaultCategory);
+			String shareUrl = "";
 			brand.setShareUrl(shareUrl);
 		} catch (Exception e) {
 			logger.error("生成品牌商铺分享图URL出错：{}",e.getMessage());
@@ -159,7 +160,8 @@ public class AdminBrandController {
 		try {
 			//生成店铺的分享URL
 			String defaultCategory = brandService.getBrandCategory(brand.getDefaultCategoryId());
-			String shareUrl = qCodeService.createBrandImage(null,brand.getId(), brand.getPicUrl(), brand.getName(),defaultCategory);
+			//String shareUrl = qCodeService.createBrandImage(null,brand.getId(), brand.getPicUrl(), brand.getName(),defaultCategory);
+			String shareUrl = "";
 			brand.setShareUrl(shareUrl);
 		} catch (Exception e) {
 			logger.error("生成品牌商铺分享图URL出错：{}",e.getMessage());

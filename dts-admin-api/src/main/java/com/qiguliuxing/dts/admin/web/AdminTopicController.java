@@ -90,7 +90,8 @@ public class AdminTopicController {
 		}
 		try {
 			//生成主题的分享URL
-			String shareUrl = qCodeService.createShareTopicImage(topic.getId(), topic.getPicUrl(), topic.getSubtitle(),topic.getPrice());
+			///String shareUrl = qCodeService.createShareTopicImage(topic.getId(), topic.getPicUrl(), topic.getSubtitle(),topic.getPrice());
+			String shareUrl = "";
 			topic.setShareUrl(shareUrl);
 		} catch (Exception e) {
 			logger.error("专题生成分享图URL出错：{}",e.getMessage());
@@ -127,8 +128,9 @@ public class AdminTopicController {
 		}
 		try {
 			//生成主题的分享URL
-			String shareUrl = qCodeService.createShareTopicImage(topic.getId(), topic.getPicUrl(), topic.getSubtitle(),topic.getPrice());
-			topic.setShareUrl(shareUrl);
+			//String shareUrl = qCodeService.createShareTopicImage(topic.getId(), topic.getPicUrl(), topic.getSubtitle(),topic.getPrice());
+			String shareUrl = "";
+					topic.setShareUrl(shareUrl);
 		} catch (Exception e) {
 			logger.error("专题生成分享图URL出错：{}",e.getMessage());
 			e.printStackTrace();

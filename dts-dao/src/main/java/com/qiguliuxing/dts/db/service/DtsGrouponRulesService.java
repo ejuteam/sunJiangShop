@@ -27,8 +27,8 @@ public class DtsGrouponRulesService {
 	@Resource
 	private GrouponMapperEx grouponMapperEx;
 	
-	private DtsGoods.Column[] goodsColumns = new DtsGoods.Column[] { DtsGoods.Column.id, DtsGoods.Column.name,
-			DtsGoods.Column.brief, DtsGoods.Column.picUrl, DtsGoods.Column.counterPrice, DtsGoods.Column.retailPrice };
+	/*private DtsGoods.Column[] goodsColumns = new DtsGoods.Column[] { DtsGoods.Column.id, DtsGoods.Column.name,
+			DtsGoods.Column.brief, DtsGoods.Column.picUrl, DtsGoods.Column.counterPrice, DtsGoods.Column.retailPrice };*/
 
 	public int createRules(DtsGrouponRules rules) {
 		rules.setAddTime(LocalDateTime.now());
@@ -81,7 +81,8 @@ public class DtsGrouponRulesService {
 		List<Map<String, Object>> grouponList = new ArrayList<>(grouponRules.size());
 		for (DtsGrouponRules rule : grouponRules) {
 			Integer goodsId = rule.getGoodsId().intValue();
-			DtsGoods goods = goodsMapper.selectByPrimaryKeySelective(goodsId, goodsColumns);
+			//DtsGoods goods = goodsMapper.selectByPrimaryKeySelective(goodsId, goodsColumns);
+			DtsGoods goods = null;
 			if (goods == null)
 				continue;
 
@@ -143,7 +144,7 @@ public class DtsGrouponRulesService {
 	 * @param brandIds
 	 * @param goodsId
 	 * @param page
-	 * @param limit
+	 * @param
 	 * @param sort
 	 * @param order
 	 * @return
