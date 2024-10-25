@@ -1,0 +1,2 @@
+ERROR 2024-10-25 20:27:50,805 [http-nio-8083-exec-8] com.qiguliuxing.dts.admin.web.AdminAuthController > 系统管理->用户登录  错误:验证码错误,输入验证码：wnwh,后台验证码：TNWH
+ERROR 2024-10-25 20:35:03,166 [http-nio-8083-exec-8] com.qiguliuxing.dts.admin.web.AdminAuthController > 系统管理->用户登录  错误:验证码错误,输入验证码：ptg8,后台验证码：PTGB

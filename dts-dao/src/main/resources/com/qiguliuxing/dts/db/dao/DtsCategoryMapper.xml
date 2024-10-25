@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiguliuxing.dts.db.dao.DtsCategoryMapper">
+    <resultMap id="CategoryResultMap" type="com.qiguliuxing.dts.db.domain.DtsCategory">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+
+    <select id="selectCategoryList" parameterType="com.qiguliuxing.dts.db.domain.DtsCategory" resultMap="CategoryResultMap">
+        select id,name from dts_category where 1=1
+        <if test="id != '' and id != null">
+            and id = #{id}
+        </if>
+        <if test="name != '' and name != null">
+            and instr(name,#{name}) > 0
+        </if>
+    </select>
+
+    <insert id="insertCategory" parameterType="com.qiguliuxing.dts.db.domain.DtsCategory">
+        INSERT INTO dts_category (id, name, add_time, update_time)
+        VALUES (#{id}, #{name}, #{addTime}, #{updateTime})
+    </insert>
+
+    <delete id="deleteCategoryById" parameterType="string">
+        delete FROM dts_category where id = #{id}
+    </delete>
+
+    <update id="updateCategoryById" parameterType="com.qiguliuxing.dts.db.domain.DtsCategory">
+        UPDATE dts_category
+        SET name = #{name, jdbcType=VARCHAR},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        WHERE id = #{id, jdbcType=INTEGER}
+    </update>
+</mapper>
