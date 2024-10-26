@@ -230,7 +230,7 @@ public class AdminGrouponController {
 			return ResponseUtil.badArgumentValue();
 		}
 		
-		grouponRules.setGoodsId(goods.getId().longValue());//最终存库只存商品id
+		//grouponRules.setGoodsId(goods.getId().longValue());//最终存库只存商品id
 		grouponRules.setGoodsName(goods.getName());
 		grouponRules.setPicUrl(goods.getPicUrl());
 

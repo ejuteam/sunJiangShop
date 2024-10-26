@@ -2,15 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qiguliuxing.dts.db.dao.DtsGoodsMapper">
   <resultMap id="DtsGoodsResultMap" type="com.qiguliuxing.dts.db.domain.DtsGoods">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="goods_sn" jdbcType="VARCHAR" property="goodsSn" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="is_fresh" jdbcType="INTEGER" property="isFresh" />
     <result column="brief" jdbcType="VARCHAR" property="brief" />
     <result column="detail" jdbcType="VARCHAR" property="detail" />
-    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="category_id" jdbcType="VARCHAR" property="categoryId" />
     <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
-    <result column="goods_type" jdbcType="VARCHAR" property="goodsType" />
+    <result column="specification_id" jdbcType="VARCHAR" property="specificationId" />
     <result column="is_postage" jdbcType="INTEGER" property="isPostage" />
     <result column="min_postage" jdbcType="INTEGER" property="minPostage" />
     <result column="first_weight" jdbcType="INTEGER" property="firstWeight" />
@@ -29,43 +29,53 @@
   </resultMap>
   <select id="queryGoodsList" parameterType="com.qiguliuxing.dts.db.domain.DtsGoods" resultMap="DtsGoodsResultMap">
     select
-    t2.name category_name,
-    t1.gallery,
-    t1.id,
-    t1.goods_sn,
-    t1.name,
-    t1.is_fresh,
-    t1.brief,
-    t1.detail,
-    t1.category_id,
-    t1.goods_type,
-    t1.is_postage,
-    t1.min_postage,
-    t1.first_weight,
-    t1.postage_fir,
-    t1.postage_sec,
-    t1.is_on_sale,
-    t1.brand_id,
-    t1.gallery,
-    t1.pic_url,
-    t1.unit,
-    t1.retail_price,
-    t1.add_time,
-    t1.update_time,
-    t1.browse,
-    t1.sales
+      t2.name category_name,
+      t1.gallery,
+      t1.id,
+      t1.goods_sn,
+      t1.name,
+      t1.is_fresh,
+      t1.brief,
+      t1.detail,
+      t1.category_id,
+      t1.specification_id,
+      t1.is_postage,
+      t1.min_postage,
+      t1.first_weight,
+      t1.postage_fir,
+      t1.postage_sec,
+      t1.is_on_sale,
+      t1.brand_id,
+      t1.gallery,
+      t1.pic_url,
+      t1.unit,
+      t1.retail_price,
+      t1.add_time,
+      t1.update_time,
+      t1.browse,
+      t1.sales
     from dts_goods t1
     left join dts_category t2 on t1.category_id = t2.id
     where 1=1
     <if test="goodsSn != '' and goodsSn != null">
       and t1.goods_sn = #{goodsSn}
     </if>
-    <if test="goodsSn != '' and goodsSn != null">
-      and insrt(t1.name,#{name}) > 0
+    <if test="name != '' and name != null">
+      and instr(t1.name,#{name}) > 0
     </if>
   </select>
 
   <delete id="deleteGoodsById">
     delete from dts_goods where id = #{id}
   </delete>
+
+  <insert id="insertDtsGoods" parameterType="com.qiguliuxing.dts.db.domain.DtsGoods">
+    INSERT INTO dts_goods (id, brief, goods_sn, is_fresh, is_on_sale,
+                           is_postage, min_postage, name, pic_url,
+                           postage_fir, postage_sec, add_time, update_time)
+    VALUES (#{id}, #{brief}, #{goodsSn}, #{isFresh}
+            ,#{isOnSale}, #{isPostage}, #{minPostage}, #{name}
+            ,#{picUrl}, #{postageFir}, #{postageSec}, #{addTime}
+            ,#{updateTime})
+  </insert>
 </mapper>

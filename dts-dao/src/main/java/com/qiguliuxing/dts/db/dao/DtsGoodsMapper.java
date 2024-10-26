@@ -9,4 +9,6 @@ public interface DtsGoodsMapper {
     List<DtsGoods> queryGoodsList(DtsGoods dtsGoods);
 
     void deleteGoodsById(Integer id);
+
+    void insertDtsGoods(DtsGoods dtsGoods);
 }

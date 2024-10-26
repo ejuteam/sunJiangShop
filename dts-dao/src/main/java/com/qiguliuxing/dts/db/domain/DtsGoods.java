@@ -4,14 +4,11 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 @Data
 public class DtsGoods {
-    private Integer id;
+    private String id;
 
     /**
      * 商品编号
@@ -36,7 +33,7 @@ public class DtsGoods {
     /**
      * 商品所属分类ID
      */
-    private Integer categoryId;
+    private String categoryId;
     /**
      * 商品所属分类名称
      */
@@ -44,7 +41,7 @@ public class DtsGoods {
     /**
      * 商品规格 JSON数组
      */
-    private String goodsType;
+    private String specificationId;
     /**
      * 是否包邮 0是 1否
      */
@@ -92,11 +89,11 @@ public class DtsGoods {
     /**
      * 创建时间
      */
-    private Date addTime;
+    private LocalDateTime addTime;
     /**
      * 更新时间
      */
-    private Date updateTime;
+    private LocalDateTime updateTime;
     /**
      * 浏览量
      */

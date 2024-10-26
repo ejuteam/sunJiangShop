@@ -20,9 +20,10 @@ public class DtsGoodsSpecificationService {
 	private DtsGoodsSpecificationMapper goodsSpecificationMapper;
 
 	public List<DtsGoodsSpecification> queryByGid(Integer id) {
-		DtsGoodsSpecificationExample example = new DtsGoodsSpecificationExample();
+		/*DtsGoodsSpecificationExample example = new DtsGoodsSpecificationExample();
 		example.or().andGoodsIdEqualTo(id).andDeletedEqualTo(false);
-		return goodsSpecificationMapper.selectByExample(example);
+		return goodsSpecificationMapper.selectByExample(example);*/
+		return null;
 	}
 
 	public DtsGoodsSpecification findById(Integer id) {
@@ -30,9 +31,10 @@ public class DtsGoodsSpecificationService {
 	}
 
 	public void deleteByGid(Integer gid) {
-		DtsGoodsSpecificationExample example = new DtsGoodsSpecificationExample();
+		/*DtsGoodsSpecificationExample example = new DtsGoodsSpecificationExample();
 		example.or().andGoodsIdEqualTo(gid);
-		goodsSpecificationMapper.logicalDeleteByExample(example);
+		goodsSpecificationMapper.logicalDeleteByExample(example);*/
+
 	}
 
 	public void add(DtsGoodsSpecification goodsSpecification) {

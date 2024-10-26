@@ -6,6 +6,9 @@ import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 
+import com.github.pagehelper.PageInfo;
+import com.qiguliuxing.dts.db.domain.DtsCategory;
+import com.qiguliuxing.dts.db.service.DtsCategoryService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +43,9 @@ public class AdminGoodsController {
 	
 	@Autowired
 	private AdminDataAuthService adminDataAuthService;
+
+	@Autowired
+	private DtsCategoryService categoryService;
 
 	/**
 	 * 查询商品
@@ -128,7 +134,7 @@ public class AdminGoodsController {
 	public Object create(@RequestBody GoodsAllinone goodsAllinone) {
 		logger.info("【请求开始】操作人:[" + AuthSupport.userName()+ "] 商品管理->商品管理->上架,请求参数:{}", JSONObject.toJSONString(goodsAllinone));
 
-		return adminGoodsService.create(goodsAllinone);
+		return adminGoodsService.createGoods(goodsAllinone);
 	}
 
 	/**
@@ -147,4 +153,22 @@ public class AdminGoodsController {
 		return null;
 	}
 
+	@RequiresPermissions("admin:category:list")
+	@RequiresPermissionsDesc(menu = { "商场管理", "类目管理" }, button = "查询")
+	@GetMapping("/listCategory")
+	public Object listCategory(String id, String name, @RequestParam(defaultValue = "1") Integer page,
+					   @RequestParam(defaultValue = "10") Integer limit,
+					   @Sort @RequestParam(defaultValue = "add_time") String sort,
+					   @Order @RequestParam(defaultValue = "desc") String order) {
+		logger.info("【请求开始】操作人:[" + AuthSupport.userName() + "] 商场管理->商品列表->管理商品->查询,请求参数:name:{},page:{}", name, page);
+
+		List<DtsCategory> collectList = categoryService.queryCategoryList(id, name, page, limit);
+		long total = PageInfo.of(collectList).getTotal();
+		Map<String, Object> data = new HashMap<>();
+		data.put("total", total);
+		data.put("items", collectList);
+
+		logger.info("【请求结束】商场管理->商品列表->管理商品->查询:total:{}", JSONObject.toJSONString(data));
+		return ResponseUtil.ok(data);
+	}
 }

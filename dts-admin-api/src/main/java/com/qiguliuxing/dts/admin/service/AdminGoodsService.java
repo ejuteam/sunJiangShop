@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.qiguliuxing.dts.db.util.IdGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,22 +89,22 @@ public class AdminGoodsService {
 			return ResponseUtil.badArgument();
 		}
 		// 品牌商可以不设置，如果设置则需要验证品牌商存在
-		Integer brandId = goods.getBrandId();
+		/*Integer brandId = goods.getBrandId();
 		if (brandId != null && brandId != 0) {
 			if (brandService.findById(brandId) == null) {
 				return ResponseUtil.badArgumentValue();
 			}
-		}
+		}*/
 		// 分类可以不设置，如果设置则需要验证分类存在
-		Integer categoryId = goods.getCategoryId();
+		//Integer categoryId = goods.getCategoryId();
 		/*if (categoryId != null && categoryId != 0) {
 			if (categoryService.findById(categoryId) == null) {
 				return ResponseUtil.badArgumentValue();
 			}
 		}*/
 
-		DtsGoodsAttribute[] attributes = goodsAllinone.getAttributes();
-		for (DtsGoodsAttribute attribute : attributes) {
+		//DtsGoodsAttribute[] attributes = goodsAllinone.getAttributes();
+		/*for (DtsGoodsAttribute attribute : attributes) {
 			String attr = attribute.getAttribute();
 			if (StringUtils.isEmpty(attr)) {
 				return ResponseUtil.badArgument();
@@ -112,7 +113,7 @@ public class AdminGoodsService {
 			if (StringUtils.isEmpty(value)) {
 				return ResponseUtil.badArgument();
 			}
-		}
+		}*/
 
 		DtsGoodsSpecification[] specifications = goodsAllinone.getSpecifications();
 		for (DtsGoodsSpecification specification : specifications) {
@@ -120,14 +121,14 @@ public class AdminGoodsService {
 			if (StringUtils.isEmpty(spec)) {
 				return ResponseUtil.badArgument();
 			}
-			String value = specification.getValue();
+			String value = specification.getWeight();
 			if (StringUtils.isEmpty(value)) {
 				return ResponseUtil.badArgument();
 			}
 		}
 
-		DtsGoodsProduct[] products = goodsAllinone.getProducts();
-		for (DtsGoodsProduct product : products) {
+		//DtsGoodsProduct[] products = goodsAllinone.getProducts();
+		/*for (DtsGoodsProduct product : products) {
 			Integer number = product.getNumber();
 			if (number == null || number < 0) {
 				return ResponseUtil.badArgument();
@@ -142,7 +143,7 @@ public class AdminGoodsService {
 			if (productSpecifications.length == 0) {
 				return ResponseUtil.badArgument();
 			}
-		}
+		}*/
 
 		return null;
 	}
@@ -165,17 +166,17 @@ public class AdminGoodsService {
 			return error;
 		}
 		DtsGoods goods = goodsAllinone.getGoods();
-		DtsGoodsAttribute[] attributes = goodsAllinone.getAttributes();
+		//DtsGoodsAttribute[] attributes = goodsAllinone.getAttributes();
 		DtsGoodsSpecification[] specifications = goodsAllinone.getSpecifications();
-		DtsGoodsProduct[] products = goodsAllinone.getProducts();
+		//DtsGoodsProduct[] products = goodsAllinone.getProducts();
 
-		Integer id = goods.getId();
+		String id = goods.getId();
 		// 检查是否存在购物车商品或者订单商品
 		// 如果存在则拒绝修改商品。
-		if (orderGoodsService.checkExist(id) || cartService.checkExist(id)) {
+		/*if (orderGoodsService.checkExist(id) || cartService.checkExist(id)) {
 			logger.error("商品管理->商品管理->编辑错误:{}", GOODS_UPDATE_NOT_ALLOWED.desc());
 			return AdminResponseUtil.fail(GOODS_UPDATE_NOT_ALLOWED);
-		}
+		}*/
 
 		// 将生成的分享图片地址写入数据库
 		/*String url = qCodeService.createGoodShareImage(null,goods.getId().toString(), goods.getPicUrl(), goods.getName(),goods.getCounterPrice(),goods.getRetailPrice());
@@ -187,10 +188,10 @@ public class AdminGoodsService {
 			throw new RuntimeException("更新数据失败");
 		}
 
-		Integer gid = goods.getId();
-		specificationService.deleteByGid(gid);
+		String gid = goods.getId();
+		/*specificationService.deleteByGid(gid);
 		attributeService.deleteByGid(gid);
-		productService.deleteByGid(gid);
+		productService.deleteByGid(gid);*/
 
 		// 商品规格表Dts_goods_specification
 		for (DtsGoodsSpecification specification : specifications) {
@@ -199,16 +200,16 @@ public class AdminGoodsService {
 		}
 
 		// 商品参数表Dts_goods_attribute
-		for (DtsGoodsAttribute attribute : attributes) {
+		/*for (DtsGoodsAttribute attribute : attributes) {
 			attribute.setGoodsId(goods.getId());
 			attributeService.add(attribute);
-		}
+		}*/
 
 		// 商品货品表Dts_product
-		for (DtsGoodsProduct product : products) {
+		/*for (DtsGoodsProduct product : products) {
 			product.setGoodsId(goods.getId());
 			productService.add(product);
-		}
+		}*/
 		//qCodeService.createGoodShareImage(goods.getId().toString(), goods.getPicUrl(), goods.getName());
 
 		logger.info("【请求结束】商品管理->商品管理->编辑,响应结果:{}", "成功!");
@@ -217,7 +218,7 @@ public class AdminGoodsService {
 
 	@Transactional
 	public Object delete(DtsGoods goods) {
-		Integer id = goods.getId();
+		/*Integer id = goods.getId();
 		if (id == null) {
 			return ResponseUtil.badArgument();
 		}
@@ -226,25 +227,26 @@ public class AdminGoodsService {
 		goodsService.deleteGoodsById(gid);
 		specificationService.deleteByGid(gid);
 		attributeService.deleteByGid(gid);
-		productService.deleteByGid(gid);
+		productService.deleteByGid(gid);*/
 
 		logger.info("【请求结束】商品管理->商品管理->删除,响应结果:{}", "成功!");
 		return ResponseUtil.ok();
 	}
 
 	@Transactional
-	public Object create(GoodsAllinone goodsAllinone) {
+	public Object createGoods(GoodsAllinone goodsAllinone) {
 		Object error = validate(goodsAllinone);
 		if (error != null) {
 			return error;
 		}
 
 		DtsGoods goods = goodsAllinone.getGoods();
-		DtsGoodsAttribute[] attributes = goodsAllinone.getAttributes();
 		DtsGoodsSpecification[] specifications = goodsAllinone.getSpecifications();
-		DtsGoodsProduct[] products = goodsAllinone.getProducts();
+
 
 		String name = goods.getName();
+		com.qiguliuxing.dts.db.util.IdGenerator idGenerator = new IdGenerator();
+		goods.setId(idGenerator.getStrId());
 		if (goodsService.checkExistByName(name)) {
 			logger.error("商品管理->商品管理->上架错误:{}", GOODS_NAME_EXIST.desc());
 			return AdminResponseUtil.fail(GOODS_NAME_EXIST);
@@ -253,23 +255,15 @@ public class AdminGoodsService {
 		// 商品基本信息表Dts_goods
 		goodsService.add(goods);
 
-		// 将生成的分享图片地址写入数据库
-		/*String url = qCodeService.createGoodShareImage(null,goods.getId().toString(), goods.getPicUrl(), goods.getName(),goods.getRetailPrice());
-		if (!StringUtils.isEmpty(url)) {
-			//goods.setShareUrl(url);
-			if (goodsService.updateById(goods) == 0) {
-				logger.error("商品管理->商品管理->上架错误:{}", "更新数据失败");
-				throw new RuntimeException("更新数据失败");
-			}
-		}*/
 
 		// 商品规格表Dts_goods_specification
 		for (DtsGoodsSpecification specification : specifications) {
+			specification.setId(idGenerator.getStrId());
 			specification.setGoodsId(goods.getId());
 			specificationService.add(specification);
 		}
 
-		// 商品参数表Dts_goods_attribute
+		/*// 商品参数表Dts_goods_attribute
 		for (DtsGoodsAttribute attribute : attributes) {
 			attribute.setGoodsId(goods.getId());
 			attributeService.add(attribute);
@@ -279,7 +273,7 @@ public class AdminGoodsService {
 		for (DtsGoodsProduct product : products) {
 			product.setGoodsId(goods.getId());
 			productService.add(product);
-		}
+		}*/
 
 		logger.info("【请求结束】商品管理->商品管理->上架,响应结果:{}", "成功!");
 		return ResponseUtil.ok();

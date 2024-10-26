@@ -5,6 +5,7 @@ import com.qiguliuxing.dts.db.dao.DtsGoodsMapper;
 import com.qiguliuxing.dts.db.domain.DtsGoods;
 import com.qiguliuxing.dts.db.domain.DtsGoodsExample;
 
+import com.qiguliuxing.dts.db.util.IdGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -212,11 +213,10 @@ public class DtsGoodsService {
 		goodsMapper.deleteGoodsById(id);
 	}
 
-	public void add(DtsGoods goods) {/*
+	public void add(DtsGoods goods) {
 		goods.setAddTime(LocalDateTime.now());
 		goods.setUpdateTime(LocalDateTime.now());
-		goodsMapper.insertSelective(goods);*/
-
+		goodsMapper.insertDtsGoods(goods);
 	}
 
 	/**
