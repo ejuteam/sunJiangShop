@@ -64,11 +64,20 @@
     <if test="id != null and id != ''">
       AND id = #{id}
     </if>
+    <if test="userId != null and userId != ''">
+      AND user_id = #{userId}
+    </if>
+    <if test="orderSn != null and orderSn != ''">
+      AND order_sn = #{orderSn}
+    </if>
     <if test="orderStatus != null and orderStatus != ''">
       and order_status = #{orderStatus}
     </if>
     <if test="deleted != null and deleted != ''">
       and deleted = #{deleted}
+    </if>
+    <if test="payStartDate != null and payEndDate != null">
+      and DATE_FORMAT(pay_time, '%Y%m%d') between #{payStartDate} and #{payEndDate}
     </if>
   </select>
 </mapper>

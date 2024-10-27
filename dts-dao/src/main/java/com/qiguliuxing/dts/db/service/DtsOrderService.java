@@ -96,7 +96,7 @@ public class DtsOrderService {
 		return null;
 	}
 
-	public List<DtsOrder> querySelective(Integer userId, String orderSn, List<Short> orderStatusArray, Integer page,
+	public List<DtsOrder> querySelective(Integer userId, String orderSn, String payStartDate, String payEndDate, List<Short> orderStatusArray, Integer page,
 			Integer size, String sort, String order) {
 		DtsOrder dtsOrder = new DtsOrder();
 
@@ -105,6 +105,12 @@ public class DtsOrderService {
 		}
 		if (!StringUtils.isEmpty(orderSn)) {
 			dtsOrder.setOrderSn(orderSn);
+		}
+		if (!StringUtils.isEmpty(payStartDate)) {
+			dtsOrder.setPayStartDate(payStartDate);
+		}
+		if (!StringUtils.isEmpty(payEndDate)) {
+			dtsOrder.setPayEndDate(payEndDate);
 		}
 		dtsOrder.setDeleted(false);
 

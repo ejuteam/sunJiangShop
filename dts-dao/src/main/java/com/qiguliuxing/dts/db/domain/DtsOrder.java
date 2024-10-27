@@ -34,4 +34,6 @@ public class DtsOrder {
     private Byte freightType; // 配送方式: 0 快递, 1 自提
     private String fetchCode; // 提货码
     private Integer createUserId; // 原始创建人
+    private String payStartDate; //支付开始时间
+    private String payEndDate;  //支付结束时间
 }

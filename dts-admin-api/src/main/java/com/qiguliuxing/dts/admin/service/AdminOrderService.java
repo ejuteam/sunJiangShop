@@ -63,11 +63,11 @@ public class AdminOrderService {
 	@Autowired
 	private AdminDataAuthService adminDataAuthService;
 
-	public Object list(Integer userId, String orderSn, List<Short> orderStatusArray, Integer page, Integer limit,
+	public Object list(Integer userId, String orderSn, String payStartDate, String payEndDate, List<Short> orderStatusArray, Integer page, Integer limit,
 			String sort, String order) {
 		List<DtsOrder> orderList = null;
 		long total = 0L;
-		orderList = orderService.querySelective(userId, orderSn, orderStatusArray, page, limit, sort,order);
+		orderList = orderService.querySelective(userId, orderSn, payStartDate, payEndDate, orderStatusArray, page, limit, sort,order);
 		total = PageInfo.of(orderList).getTotal();
 		
 		Map<String, Object> data = new HashMap<>();
