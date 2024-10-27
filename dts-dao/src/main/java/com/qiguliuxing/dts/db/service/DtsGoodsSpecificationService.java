@@ -19,22 +19,18 @@ public class DtsGoodsSpecificationService {
 	@Resource
 	private DtsGoodsSpecificationMapper goodsSpecificationMapper;
 
-	public List<DtsGoodsSpecification> queryByGid(Integer id) {
-		/*DtsGoodsSpecificationExample example = new DtsGoodsSpecificationExample();
-		example.or().andGoodsIdEqualTo(id).andDeletedEqualTo(false);
-		return goodsSpecificationMapper.selectByExample(example);*/
-		return null;
+	public List<DtsGoodsSpecification> queryByGoodsId(String id) {
+		return goodsSpecificationMapper.queryByGoodsId(id);
 	}
 
 	public DtsGoodsSpecification findById(Integer id) {
 		return goodsSpecificationMapper.selectByPrimaryKey(id);
 	}
 
-	public void deleteByGid(Integer gid) {
-		/*DtsGoodsSpecificationExample example = new DtsGoodsSpecificationExample();
-		example.or().andGoodsIdEqualTo(gid);
-		goodsSpecificationMapper.logicalDeleteByExample(example);*/
-
+	public void deleteByGid(String gid) {
+		DtsGoodsSpecification dtsGoodsSpecification = new DtsGoodsSpecification();
+		dtsGoodsSpecification.setGoodsId(gid);
+		goodsSpecificationMapper.deleteByGid(dtsGoodsSpecification);
 	}
 
 	public void add(DtsGoodsSpecification goodsSpecification) {
@@ -49,8 +45,8 @@ public class DtsGoodsSpecificationService {
 	 * @param id
 	 * @return
 	 */
-	public Object getSpecificationVoList(Integer id) {
-		List<DtsGoodsSpecification> goodsSpecificationList = queryByGid(id);
+	public Object getSpecificationVoList(String id) {
+		List<DtsGoodsSpecification> goodsSpecificationList = queryByGoodsId(id);
 
 		Map<String, VO> map = new HashMap<>();
 		List<VO> specificationVoList = new ArrayList<>();

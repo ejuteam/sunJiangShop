@@ -90,7 +90,7 @@ public class AdminGrouponController {
 				Map<String, Object> RecordData = new HashMap<>();
 				List<DtsGroupon> subGrouponList = grouponService.queryJoinRecord(groupon.getId());
 				DtsGrouponRules rules = rulesService.queryById(groupon.getRulesId());
-				DtsGoods goods = goodsService.findById(rules.getGoodsId().intValue());
+				DtsGoods goods = goodsService.findById(rules.getGoodsId().toString());
 
 				RecordData.put("groupon", groupon);
 				RecordData.put("subGroupons", subGrouponList);
@@ -185,8 +185,7 @@ public class AdminGrouponController {
 			return error;
 		}
 
-		Integer goodsId = grouponRules.getGoodsId().intValue();
-		DtsGoods goods = goodsService.findById(goodsId);
+		DtsGoods goods = goodsService.findById(grouponRules.getGoodsId().toString());
 		if (goods == null) {
 			return ResponseUtil.badArgumentValue();
 		}
@@ -220,7 +219,7 @@ public class AdminGrouponController {
 		 * 如果未找到，则转换为goodsSn找再找商品
 		 */
 		if ( goodsId.intValue() < Integer.MAX_VALUE) {
-			goods = goodsService.findById(goodsId.intValue());
+			goods = goodsService.findById(goodsId.toString());
 		}
 		if (goods == null) {
 			goods = goodsService.findByGoodsSn(goodsId.toString());

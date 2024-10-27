@@ -772,12 +772,12 @@ public class WxOrderService {
 			grouponRules = grouponRulesService.queryById(groupon.getRulesId());
 
 			// 仅当发起者才创建分享图片
-			if (groupon.getGrouponId() == 0) {
+			/*if (groupon.getGrouponId() == 0) {
 				BigDecimal actualPrice = new BigDecimal(order.getActualPrice().toString());
 				String url = qCodeService.createGrouponShareImage(grouponRules.getGoodsName(), grouponRules.getPicUrl(),
 						groupon,actualPrice.add(grouponRules.getDiscount()),actualPrice);
 				groupon.setShareUrl(url);
-			}
+			}*/
 			groupon.setPayed(true);
 			if (grouponService.updateById(groupon) == 0) {
 				logger.error("微信付款成功或失败回调失败：{}", "更新团购数据已失败!");
@@ -1153,7 +1153,7 @@ public class WxOrderService {
 	 *            商品ID
 	 * @return 待评价订单商品信息
 	 */
-	public Object goods(Integer userId, Integer orderId, Integer goodsId) {
+	public Object goods(Integer userId, Integer orderId, String goodsId) {
 		if (userId == null) {
 			logger.error("获取待评价订单商品订单失败：用户未登录!");
 			return ResponseUtil.unlogin();

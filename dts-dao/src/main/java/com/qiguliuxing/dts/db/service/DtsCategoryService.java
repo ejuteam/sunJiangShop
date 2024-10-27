@@ -49,6 +49,10 @@ public class DtsCategoryService {
 		return categoryMapper.updateCategoryById(category);
 	}
 
+	public DtsCategory findCategoryByGoodsId(String goodsId){
+		return categoryMapper.findCategoryByGoodsId(goodsId);
+	}
+
 	/*public List<DtsCategory> queryL1WithoutRecommend(int offset, int limit) {
 		DtsCategoryExample example = new DtsCategoryExample();
 		example.or().andLevelEqualTo("L1").andNameNotEqualTo("推荐").andDeletedEqualTo(false);

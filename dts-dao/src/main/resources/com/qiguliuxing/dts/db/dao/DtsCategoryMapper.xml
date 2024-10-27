@@ -18,6 +18,13 @@
         </if>
     </select>
 
+    <select id="findCategoryByGoodsId" parameterType="string" resultType="com.qiguliuxing.dts.db.domain.DtsCategory">
+        select t1.id,t1.name from dts_category t1 inner join dts_goods t2 on t1.id = t2.category_id where 1=1
+        <if test="goodsId != '' and goodsId != null">
+            and t2.id = #{goodsId}
+        </if>
+    </select>
+
     <insert id="insertCategory" parameterType="com.qiguliuxing.dts.db.domain.DtsCategory">
         INSERT INTO dts_category (id, name, add_time, update_time)
         VALUES (#{id}, #{name}, #{addTime}, #{updateTime})

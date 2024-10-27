@@ -146,11 +146,10 @@ public class AdminGoodsController {
 	@RequiresPermissions("admin:goods:read")
 	@RequiresPermissionsDesc(menu = { "商品管理", "商品管理" }, button = "详情")
 	@GetMapping("/detail")
-	public Object detail(@NotNull Integer id) {
+	public Object detail(@NotNull String id) {
 		logger.info("【请求开始】操作人:[" + AuthSupport.userName()+ "] 商品管理->商品管理->详情,请求参数,id:{}", id);
 
-		//return adminGoodsService.detail(id);
-		return null;
+		return adminGoodsService.detail(id);
 	}
 
 	@RequiresPermissions("admin:category:list")

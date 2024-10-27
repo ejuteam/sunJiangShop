@@ -679,7 +679,7 @@ public class DtsCartExample {
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIdEqualTo(Integer value) {
+        public Criteria andGoodsIdEqualTo(String value) {
             addCriterion("goods_id =", value, "goodsId");
             return (Criteria) this;
         }

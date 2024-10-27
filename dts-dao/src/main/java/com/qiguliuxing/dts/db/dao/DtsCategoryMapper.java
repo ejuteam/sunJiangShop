@@ -13,4 +13,6 @@ public interface DtsCategoryMapper {
     void deleteCategoryById(@Param("id") String id);
 
     int updateCategoryById(DtsCategory category);
+
+    DtsCategory findCategoryByGoodsId(@Param("goodsId") String goodsId);
 }

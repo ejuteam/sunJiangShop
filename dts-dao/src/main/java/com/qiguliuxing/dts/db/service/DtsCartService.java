@@ -17,7 +17,7 @@ public class DtsCartService {
 	@Resource
 	private DtsCartMapper cartMapper;
 
-	public DtsCart queryExist(Integer goodsId, Integer productId, Integer userId) {
+	public DtsCart queryExist(String goodsId, Integer productId, Integer userId) {
 		DtsCartExample example = new DtsCartExample();
 		example.or().andGoodsIdEqualTo(goodsId).andProductIdEqualTo(productId).andUserIdEqualTo(userId)
 				.andDeletedEqualTo(false);
@@ -74,7 +74,7 @@ public class DtsCartService {
 		cartMapper.updateByExampleSelective(cart, example);
 	}
 
-	public List<DtsCart> querySelective(Integer userId, Integer goodsId, Integer page, Integer limit, String sort,
+	public List<DtsCart> querySelective(Integer userId, String goodsId, Integer page, Integer limit, String sort,
 			String order) {
 		DtsCartExample example = new DtsCartExample();
 		DtsCartExample.Criteria criteria = example.createCriteria();
@@ -99,7 +99,7 @@ public class DtsCartService {
 		cartMapper.logicalDeleteByPrimaryKey(id);
 	}
 
-	public boolean checkExist(Integer goodsId) {
+	public boolean checkExist(String goodsId) {
 		DtsCartExample example = new DtsCartExample();
 		example.or().andGoodsIdEqualTo(goodsId).andCheckedEqualTo(true).andDeletedEqualTo(false);
 		return cartMapper.countByExample(example) != 0;

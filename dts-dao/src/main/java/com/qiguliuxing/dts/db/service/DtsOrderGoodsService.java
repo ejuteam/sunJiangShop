@@ -27,7 +27,7 @@ public class DtsOrderGoodsService {
 		return orderGoodsMapper.selectByExample(example);
 	}
 
-	public List<DtsOrderGoods> findByOidAndGid(Integer orderId, Integer goodsId) {
+	public List<DtsOrderGoods> findByOidAndGid(Integer orderId, String goodsId) {
 		DtsOrderGoodsExample example = new DtsOrderGoodsExample();
 		example.or().andOrderIdEqualTo(orderId).andGoodsIdEqualTo(goodsId).andDeletedEqualTo(false);
 		return orderGoodsMapper.selectByExample(example);
@@ -49,7 +49,7 @@ public class DtsOrderGoodsService {
 		return (short) count;
 	}
 
-	public boolean checkExist(Integer goodsId) {
+	public boolean checkExist(String goodsId) {
 		DtsOrderGoodsExample example = new DtsOrderGoodsExample();
 		example.or().andGoodsIdEqualTo(goodsId).andDeletedEqualTo(false);
 		return orderGoodsMapper.countByExample(example) != 0;

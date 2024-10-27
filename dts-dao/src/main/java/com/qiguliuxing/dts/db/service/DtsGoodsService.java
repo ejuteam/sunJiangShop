@@ -151,11 +151,8 @@ public class DtsGoodsService {
 	 * @param id
 	 * @return
 	 */
-	public DtsGoods findById(Integer id) {/*
-		DtsGoodsExample example = new DtsGoodsExample();
-		example.or().andIdEqualTo(id).andDeletedEqualTo(false);
-		return goodsMapper.selectOneByExampleWithBLOBs(example);*/
-		return null;
+	public DtsGoods findById(String id) {
+		return goodsMapper.findById(id);
 	}
 	
 	/**
@@ -202,14 +199,12 @@ public class DtsGoodsService {
 		return null;
 	}
 
-	public int updateById(DtsGoods goods) {/*
+	public int updateById(DtsGoods goods) {
 		goods.setUpdateTime(LocalDateTime.now());
-		return goodsMapper.updateByPrimaryKeySelective(goods);*/
-		return 0;
-
+		return goodsMapper.updateByGid(goods);
 	}
 
-	public void deleteGoodsById(Integer id) {
+	public void deleteGoodsById(String id) {
 		goodsMapper.deleteGoodsById(id);
 	}
 

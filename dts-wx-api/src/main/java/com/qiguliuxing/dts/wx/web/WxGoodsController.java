@@ -118,20 +118,20 @@ public class WxGoodsController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@GetMapping("detail")
-	public Object detail(@LoginUser Integer userId, @NotNull Integer id) {
+	public Object detail(@LoginUser Integer userId, @NotNull String id) {
 		logger.info("【请求开始】商品详情,请求参数,userId:{},id:{}", userId, id);
 
 		// 商品信息
 		DtsGoods info = goodsService.findById(id);
 
 		// 商品属性
-		Callable<List> goodsAttributeListCallable = () -> goodsAttributeService.queryByGid(id);
+		//Callable<List> goodsAttributeListCallable = () -> goodsAttributeService.queryByGid(id);
 
 		// 商品规格 返回的是定制的GoodsSpecificationVo
 		Callable<Object> objectCallable = () -> goodsSpecificationService.getSpecificationVoList(id);
 
 		// 商品规格对应的数量和价格
-		Callable<List> productListCallable = () -> productService.queryByGid(id);
+		//Callable<List> productListCallable = () -> productService.queryByGid(id);
 
 		// 商品问题，这里是一些通用问题
 		Callable<List> issueCallable = () -> goodsIssueService.query();
@@ -149,7 +149,7 @@ public class WxGoodsController {
 		};
 
 		// 评论
-		Callable<Map> commentsCallable = () -> {
+		/*Callable<Map> commentsCallable = () -> {
 			List<DtsComment> comments = commentService.queryGoodsByGid(id, 0, 2);
 			List<Map<String, Object>> commentsVo = new ArrayList<>(comments.size());
 			long commentCount = PageInfo.of(comments).getTotal();
@@ -168,13 +168,13 @@ public class WxGoodsController {
 			commentList.put("count", commentCount);
 			commentList.put("data", commentsVo);
 			return commentList;
-		};
+		};*/
 
 		// 团购信息
-		Callable<List> grouponRulesCallable = () -> rulesService.queryByGoodsId(id.longValue());
+		//Callable<List> grouponRulesCallable = () -> rulesService.queryByGoodsId(id.longValue());
 
 		// 用户收藏
-		int userHasCollect = 0;
+		/*int userHasCollect = 0;
 		if (userId != null) {
 			userHasCollect = collectService.count(userId, id);
 		}
@@ -189,43 +189,43 @@ public class WxGoodsController {
 				short num = 1;
 				productService.addBrowse(id, num);// 新增商品点击量
 			});
-		}
+		}*/
 
-		FutureTask<List> goodsAttributeListTask = new FutureTask<>(goodsAttributeListCallable);
+		//FutureTask<List> goodsAttributeListTask = new FutureTask<>(goodsAttributeListCallable);
 		FutureTask<Object> objectCallableTask = new FutureTask<>(objectCallable);
-		FutureTask<List> productListCallableTask = new FutureTask<>(productListCallable);
+		//FutureTask<List> productListCallableTask = new FutureTask<>(productListCallable);
 		FutureTask<List> issueCallableTask = new FutureTask<>(issueCallable);
-		FutureTask<Map> commentsCallableTsk = new FutureTask<>(commentsCallable);
+		//FutureTask<Map> commentsCallableTsk = new FutureTask<>(commentsCallable);
 		FutureTask<DtsBrand> brandCallableTask = new FutureTask<>(brandCallable);
-		FutureTask<List> grouponRulesCallableTask = new FutureTask<>(grouponRulesCallable);
+		//FutureTask<List> grouponRulesCallableTask = new FutureTask<>(grouponRulesCallable);
 
-		executorService.submit(goodsAttributeListTask);
+		//executorService.submit(goodsAttributeListTask);
 		executorService.submit(objectCallableTask);
-		executorService.submit(productListCallableTask);
+		//executorService.submit(productListCallableTask);
 		executorService.submit(issueCallableTask);
-		executorService.submit(commentsCallableTsk);
+		//executorService.submit(commentsCallableTsk);
 		executorService.submit(brandCallableTask);
-		executorService.submit(grouponRulesCallableTask);
+		//executorService.submit(grouponRulesCallableTask);
 
 		Map<String, Object> data = new HashMap<>();
 
 		try {
 			data.put("info", info);
-			data.put("userHasCollect", userHasCollect);
+			//data.put("userHasCollect", userHasCollect);
 			data.put("issue", issueCallableTask.get());
-			data.put("comment", commentsCallableTsk.get());
+			//data.put("comment", commentsCallableTsk.get());
 			data.put("specificationList", objectCallableTask.get());
-			data.put("productList", productListCallableTask.get());
-			data.put("attribute", goodsAttributeListTask.get());
+			//data.put("productList", productListCallableTask.get());
+			//data.put("attribute", goodsAttributeListTask.get());
 			data.put("brand", brandCallableTask.get());
-			data.put("groupon", grouponRulesCallableTask.get());
+			//data.put("groupon", grouponRulesCallableTask.get());
 		} catch (Exception e) {
 			logger.error("获取商品详情出错:{}", e.getMessage());
 			e.printStackTrace();
 		}
 
 		// 商品分享图片地址
-		data.put("shareImage", info.getShareUrl());
+		//data.put("shareImage", info.getShareUrl());
 
 		logger.info("【请求结束】获取商品详情成功!");// 这里不打印返回的信息，因为此接口查询量大，太耗日志空间
 		return ResponseUtil.ok(data);
@@ -238,7 +238,7 @@ public class WxGoodsController {
 	 *            分类类目ID
 	 * @return 商品分类类目
 	 */
-	@GetMapping("category")
+	/*@GetMapping("category")
 	public Object category(@NotNull Integer id) {
 		logger.info("【请求开始】商品分类类目,请求参数,id:{}", id);
 
@@ -261,7 +261,7 @@ public class WxGoodsController {
 
 		logger.info("【请求结束】商品分类类目,响应结果:{}", JSONObject.toJSONString(data));
 		return ResponseUtil.ok(data);
-	}
+	}*/
 
 	/**
 	 * 根据条件搜素商品
@@ -290,7 +290,7 @@ public class WxGoodsController {
 	 *            排序类型，顺序或者降序
 	 * @return 根据条件搜素的商品详情
 	 */
-	@GetMapping("list")
+	/*@GetMapping("list")
 	public Object list(Integer categoryId, Integer brandId, String keyword, Boolean isNew, Boolean isHot,
 			@LoginUser Integer userId, @RequestParam(defaultValue = "1") Integer page,
 			@RequestParam(defaultValue = "10") Integer size,
@@ -317,7 +317,7 @@ public class WxGoodsController {
 		List<Integer> goodsCatIds = goodsService.getCatIds(brandId, keyword, isHot, isNew);
 		List<DtsCategory> categoryList = null;
 		if (goodsCatIds.size() != 0) {
-			categoryList = categoryService.queryL2ByIds(goodsCatIds);
+			//categoryList = categoryService.queryL2ByIds(goodsCatIds);
 		} else {
 			categoryList = new ArrayList<>(0);
 		}
@@ -332,7 +332,7 @@ public class WxGoodsController {
 
 		logger.info("【请求结束】根据条件搜素商品,响应结果:查询的商品数量:{},总数：{},总共 {} 页", goodsList.size(),count,totalPages);
 		return ResponseUtil.ok(data);
-	}
+	}*/
 
 	/**
 	 * 商品详情页面“大家都在看”推荐商品
@@ -341,7 +341,7 @@ public class WxGoodsController {
 	 *            商品ID
 	 * @return 商品详情页面推荐商品
 	 */
-	@GetMapping("related")
+	/*@GetMapping("related")
 	public Object related(@NotNull Integer id) {
 		logger.info("【请求开始】商品详情页面“大家都在看”推荐商品,请求参数,id:{}", id);
 
@@ -369,14 +369,14 @@ public class WxGoodsController {
 
 		logger.info("【请求结束】商品详情页面“大家都在看”推荐商品,响应结果:查询的商品数量:{}", relatedGoods.size());
 		return ResponseUtil.ok(data);
-	}
+	}*/
 
 	/**
 	 * 在售的商品总数
 	 *
 	 * @return 在售的商品总数
 	 */
-	@GetMapping("count")
+	/*@GetMapping("count")
 	public Object count() {
 		logger.info("【请求开始】在售的商品总数...");
 		Integer goodsCount = goodsService.queryOnSale();
@@ -385,6 +385,6 @@ public class WxGoodsController {
 
 		logger.info("【请求结束】在售的商品总数,响应结果:{}", JSONObject.toJSONString(data));
 		return ResponseUtil.ok(data);
-	}
+	}*/
 
 }

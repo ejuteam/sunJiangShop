@@ -173,10 +173,10 @@ public class AdminGoodsService {
 		String id = goods.getId();
 		// 检查是否存在购物车商品或者订单商品
 		// 如果存在则拒绝修改商品。
-		/*if (orderGoodsService.checkExist(id) || cartService.checkExist(id)) {
+		if (orderGoodsService.checkExist(id) || cartService.checkExist(id)) {
 			logger.error("商品管理->商品管理->编辑错误:{}", GOODS_UPDATE_NOT_ALLOWED.desc());
 			return AdminResponseUtil.fail(GOODS_UPDATE_NOT_ALLOWED);
-		}*/
+		}
 
 		// 将生成的分享图片地址写入数据库
 		/*String url = qCodeService.createGoodShareImage(null,goods.getId().toString(), goods.getPicUrl(), goods.getName(),goods.getCounterPrice(),goods.getRetailPrice());
@@ -189,13 +189,15 @@ public class AdminGoodsService {
 		}
 
 		String gid = goods.getId();
-		/*specificationService.deleteByGid(gid);
-		attributeService.deleteByGid(gid);
-		productService.deleteByGid(gid);*/
+		specificationService.deleteByGid(gid);
+		//attributeService.deleteByGid(gid);
+		//productService.deleteByGid(gid);
 
 		// 商品规格表Dts_goods_specification
 		for (DtsGoodsSpecification specification : specifications) {
+			IdGenerator idGenerator = new IdGenerator();
 			specification.setGoodsId(goods.getId());
+			specification.setId(idGenerator.getStrId());
 			specificationService.add(specification);
 		}
 
@@ -218,16 +220,16 @@ public class AdminGoodsService {
 
 	@Transactional
 	public Object delete(DtsGoods goods) {
-		/*Integer id = goods.getId();
+		String id = goods.getId();
 		if (id == null) {
 			return ResponseUtil.badArgument();
 		}
 
-		Integer gid = goods.getId();
+		String gid = goods.getId();
 		goodsService.deleteGoodsById(gid);
 		specificationService.deleteByGid(gid);
-		attributeService.deleteByGid(gid);
-		productService.deleteByGid(gid);*/
+		//attributeService.deleteByGid(gid);
+		//productService.deleteByGid(gid);
 
 		logger.info("【请求结束】商品管理->商品管理->删除,响应结果:{}", "成功!");
 		return ResponseUtil.ok();
@@ -279,6 +281,30 @@ public class AdminGoodsService {
 		return ResponseUtil.ok();
 	}
 
+	public Object detail(String id) {
+		DtsGoods goods = goodsService.findById(id);
+		//List<DtsGoodsProduct> products = productService.queryByGid(id);
+		List<DtsGoodsSpecification> specifications = specificationService.queryByGoodsId(id);
+		//List<DtsGoodsAttribute> attributes = attributeService.queryByGid(id);
+
+		//用于展示商品归属的类目（页面级联下拉控件数据展示）
+		DtsCategory category = categoryService.findCategoryByGoodsId(goods.getId());
+		String[] categoryIds = new String[] {};
+		if (category != null) {
+			categoryIds = new String[] { null, goods.getCategoryId() };
+		}
+
+		Map<String, Object> data = new HashMap<>();
+		data.put("goods", goods);
+		data.put("specifications", specifications);
+		/*data.put("products", products);
+		data.put("attributes", attributes);*/
+		data.put("categoryIds", categoryIds);
+
+		logger.info("【请求结束】商品管理->商品管理->详情,响应结果:{}", "成功!");
+		return ResponseUtil.ok(data);
+	}
+
 	/*public Object catAndBrand() {
 		// http://element-cn.eleme.io/#/zh-CN/component/cascader
 		// 管理员设置“所属分类”
@@ -325,32 +351,6 @@ public class AdminGoodsService {
 		Map<String, Object> data = new HashMap<>();
 		data.put("categoryList", categoryList);
 		data.put("brandList", brandList);
-		return ResponseUtil.ok(data);
-	}*/
-
-	/*public Object detail(Integer id) {
-		DtsGoods goods = goodsService.findById(id);
-		List<DtsGoodsProduct> products = productService.queryByGid(id);
-		List<DtsGoodsSpecification> specifications = specificationService.queryByGid(id);
-		List<DtsGoodsAttribute> attributes = attributeService.queryByGid(id);
-
-		//用于展示商品归属的类目（页面级联下拉控件数据展示）
-		Integer categoryId = goods.getCategoryId();
-		DtsCategory category = categoryService.findById(categoryId);
-		Integer[] categoryIds = new Integer[] {};
-		if (category != null) {
-			Integer parentCategoryId = category.getPid();
-			categoryIds = new Integer[] { parentCategoryId, categoryId };
-		}
-
-		Map<String, Object> data = new HashMap<>();
-		data.put("goods", goods);
-		data.put("specifications", specifications);
-		data.put("products", products);
-		data.put("attributes", attributes);
-		data.put("categoryIds", categoryIds);
-
-		logger.info("【请求结束】商品管理->商品管理->详情,响应结果:{}", "成功!");
 		return ResponseUtil.ok(data);
 	}*/
 

@@ -195,7 +195,7 @@ public class WxOrderController {
 	 * @return 待评价订单商品信息
 	 */
 	@GetMapping("goods")
-	public Object goods(@LoginUser Integer userId, @NotNull Integer orderId, @NotNull Integer goodsId) {
+	public Object goods(@LoginUser Integer userId, @NotNull Integer orderId, @NotNull String goodsId) {
 		logger.info("【请求开始】获取待评价订单商品信息,请求参数,userId:{},orderId:{},goodsId:{}", userId, orderId, goodsId);
 		return wxOrderService.goods(userId, orderId, goodsId);
 	}

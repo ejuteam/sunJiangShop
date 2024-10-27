@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qiguliuxing.dts.db.dao.DtsGoodsSpecificationMapper">
-  <resultMap id="BaseResultMap" type="com.qiguliuxing.dts.db.domain.DtsGoodsSpecification">
+  <resultMap id="DtsGoodsSpecificationResultMap" type="com.qiguliuxing.dts.db.domain.DtsGoodsSpecification">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />
     <result column="specification" jdbcType="VARCHAR" property="specification" />
@@ -16,4 +16,26 @@
     VALUES (#{id}, #{goodsId}, #{specification}, #{weight}
             ,#{price}, #{repertory}, #{addTime}, #{updateTime})
   </insert>
+
+  <select id="queryByGoodsId" parameterType="string" resultMap="DtsGoodsSpecificationResultMap">
+    select
+      id,
+      goods_id,
+      specification,
+      weight,
+      price,
+      repertory,
+      add_time,
+      update_time
+    from
+      dts_goods_specification
+    where 1=1
+    <if test="id != null and id != ''">
+      and goods_id = #{id}
+    </if>
+  </select>
+
+  <delete id="deleteByGid" parameterType="com.qiguliuxing.dts.db.domain.DtsGoodsSpecification">
+    delete from dts_goods_specification where goods_id = #{goodsId}
+  </delete>
 </mapper>
