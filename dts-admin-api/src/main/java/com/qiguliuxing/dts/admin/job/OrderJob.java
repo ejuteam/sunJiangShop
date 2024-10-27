@@ -44,7 +44,7 @@ public class OrderJob {
 	public void checkOrderUnpaid() {
 		logger.info("系统开启任务检查订单是否已经超期自动取消订单");
 
-		List<DtsOrder> orderList = orderService.queryUnpaid();
+		List<DtsOrder> orderList = orderService.queryOrderList();
 		for (DtsOrder order : orderList) {
 			LocalDateTime add = order.getAddTime();
 			LocalDateTime now = LocalDateTime.now();

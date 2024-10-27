@@ -33,20 +33,24 @@ public class DtsOrderService {
 	private StatMapper statMapper;
 	
 
-	public int add(DtsOrder order) {
+	public int add(DtsOrder order) {/*
 		order.setAddTime(LocalDateTime.now());
 		order.setUpdateTime(LocalDateTime.now());
-		return dtsOrderMapper.insertSelective(order);
+		return dtsOrderMapper.insertSelective(order);*/
+		return 1;
 	}
 
-	public int count(Integer userId) {
+	public int count(Integer userId) {/*
 		DtsOrderExample example = new DtsOrderExample();
 		example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);
-		return (int) dtsOrderMapper.countByExample(example);
+		return (int) dtsOrderMapper.countByExample(example);*/
+		return 1;
 	}
 
-	public DtsOrder findById(Integer orderId) {
-		return dtsOrderMapper.selectByPrimaryKey(orderId);
+	public List<DtsOrder> findById(Integer orderId) {
+		DtsOrder dtsOrder = new DtsOrder();
+		dtsOrder.setId(orderId);
+		return dtsOrderMapper.queryOrderList(dtsOrder);
 	}
 
 	private String getRandomNum(Integer num) {
@@ -60,10 +64,11 @@ public class DtsOrderService {
 		return sb.toString();
 	}
 
-	public int countByOrderSn(Integer userId, String orderSn) {
+	public int countByOrderSn(Integer userId, String orderSn) {/*
 		DtsOrderExample example = new DtsOrderExample();
 		example.or().andUserIdEqualTo(userId).andOrderSnEqualTo(orderSn).andDeletedEqualTo(false);
-		return (int) dtsOrderMapper.countByExample(example);
+		return (int) dtsOrderMapper.countByExample(example);*/
+		return 1;
 	}
 
 	// TODO 这里应该产生一个唯一的订单，但是实际上这里仍然存在两个订单相同的可能性
@@ -78,7 +83,7 @@ public class DtsOrderService {
 	}
 
 	public List<DtsOrder> queryByOrderStatus(Integer userId, List<Short> orderStatus, Integer page, Integer size) {
-		DtsOrderExample example = new DtsOrderExample();
+		/*DtsOrderExample example = new DtsOrderExample();
 		example.setOrderByClause(DtsOrder.Column.addTime.desc());
 		DtsOrderExample.Criteria criteria = example.or();
 		criteria.andUserIdEqualTo(userId);
@@ -87,31 +92,24 @@ public class DtsOrderService {
 		}
 		criteria.andDeletedEqualTo(false);
 		PageHelper.startPage(page, size);
-		return dtsOrderMapper.selectByExample(example);
+		return dtsOrderMapper.selectByExample(example);*/
+		return null;
 	}
 
 	public List<DtsOrder> querySelective(Integer userId, String orderSn, List<Short> orderStatusArray, Integer page,
 			Integer size, String sort, String order) {
-		DtsOrderExample example = new DtsOrderExample();
-		DtsOrderExample.Criteria criteria = example.createCriteria();
+		DtsOrder dtsOrder = new DtsOrder();
 
 		if (userId != null) {
-			criteria.andUserIdEqualTo(userId);
+			dtsOrder.setUserId(userId);
 		}
 		if (!StringUtils.isEmpty(orderSn)) {
-			criteria.andOrderSnEqualTo(orderSn);
+			dtsOrder.setOrderSn(orderSn);
 		}
-		if (orderStatusArray != null && orderStatusArray.size() != 0) {
-			criteria.andOrderStatusIn(orderStatusArray);
-		}
-		criteria.andDeletedEqualTo(false);
-
-		if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
-			example.setOrderByClause(sort + " " + order);
-		}
+		dtsOrder.setDeleted(false);
 
 		PageHelper.startPage(page, size);
-		return dtsOrderMapper.selectByExample(example);
+		return dtsOrderMapper.queryOrderList(dtsOrder);
 	}
 
 	public int updateWithOptimisticLocker(DtsOrder order) {
@@ -121,34 +119,38 @@ public class DtsOrderService {
 	}
 
 	public void deleteById(Integer id) {
-		dtsOrderMapper.logicalDeleteByPrimaryKey(id);
+		//dtsOrderMapper.logicalDeleteByPrimaryKey(id);
 	}
 
-	public int count() {
+	public int count() {/*
 		DtsOrderExample example = new DtsOrderExample();
 		example.or().andDeletedEqualTo(false);
-		return (int) dtsOrderMapper.countByExample(example);
+		return (int) dtsOrderMapper.countByExample(example);*/
+		return 1;
 	}
 
-	public List<DtsOrder> queryUnpaid() {
-		DtsOrderExample example = new DtsOrderExample();
-		example.or().andOrderStatusEqualTo(OrderUtil.STATUS_CREATE).andDeletedEqualTo(false);
-		return dtsOrderMapper.selectByExample(example);
+	public List<DtsOrder> queryOrderList() {
+		DtsOrder dtsOrder = new DtsOrder();
+		dtsOrder.setOrderStatus(OrderUtil.STATUS_CREATE);
+		dtsOrder.setDeleted(false);
+		return dtsOrderMapper.queryOrderList(dtsOrder);
 	}
 
-	public List<DtsOrder> queryUnconfirm() {
+	public List<DtsOrder> queryUnconfirm() {/*
 		DtsOrderExample example = new DtsOrderExample();
 		example.or().andOrderStatusEqualTo(OrderUtil.STATUS_SHIP).andShipTimeIsNotNull().andDeletedEqualTo(false);
-		return dtsOrderMapper.selectByExample(example);
+		return dtsOrderMapper.selectByExample(example);*/
+		return null;
 	}
 
-	public DtsOrder findBySn(String orderSn) {
+	public DtsOrder findBySn(String orderSn) {/*
 		DtsOrderExample example = new DtsOrderExample();
 		example.or().andOrderSnEqualTo(orderSn).andDeletedEqualTo(false);
-		return dtsOrderMapper.selectOneByExample(example);
+		return dtsOrderMapper.selectOneByExample(example);*/
+		return null;
 	}
 
-	public Map<Object, Object> orderInfo(Integer userId) {
+	public Map<Object, Object> orderInfo(Integer userId) {/*
 		DtsOrderExample example = new DtsOrderExample();
 		example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);
 		List<DtsOrder> orders = dtsOrderMapper.selectByExampleSelective(example, DtsOrder.Column.orderStatus,
@@ -177,13 +179,15 @@ public class DtsOrderService {
 		orderInfo.put("unship", unship);
 		orderInfo.put("unrecv", unrecv);
 		orderInfo.put("uncomment", uncomment);
-		return orderInfo;
+		return orderInfo;*/
+		return null;
 	}
 
-	public List<DtsOrder> queryComment() {
+	public List<DtsOrder> queryComment() {/*
 		DtsOrderExample example = new DtsOrderExample();
 		example.or().andCommentsGreaterThan((short) 0).andDeletedEqualTo(false);
-		return dtsOrderMapper.selectByExample(example);
+		return dtsOrderMapper.selectByExample(example);*/
+		return null;
 	}
 
 	public List<DayStatis> recentCount(int statisDaysRang) {
@@ -201,7 +205,7 @@ public class DtsOrderService {
 	 * @param orderSn
 	 * @param orderStatusArray
 	 * @param page
-	 * @param limit
+	 * @param
 	 * @param sort
 	 * @param order
 	 * @return
