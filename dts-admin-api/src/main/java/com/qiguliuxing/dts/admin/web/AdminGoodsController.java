@@ -61,11 +61,11 @@ public class AdminGoodsController {
 	@RequiresPermissions("admin:goods:list")
 	@RequiresPermissionsDesc(menu = { "商品管理", "商品管理" }, button = "查询")
 	@GetMapping("/list")
-	public Object list(String goodsSn, String name, @RequestParam(defaultValue = "1") Integer page,
+	public Object list(String goodsSn, String name, String categoryId,@RequestParam(defaultValue = "1") Integer page,
 			@RequestParam(defaultValue = "10") Integer limit,
 			@Sort @RequestParam(defaultValue = "add_time") String sort,
 			@Order @RequestParam(defaultValue = "desc") String order) {
-		logger.info("【请求开始】操作人:[" + AuthSupport.userName()+ "] 商品管理->商品管理->查询,请求参数:goodsSn:{},name:{},page:{}", goodsSn, name, page);
+		logger.info("【请求开始】操作人:[" + AuthSupport.userName()+ "] 商品管理->商品管理->查询,请求参数:goodsSn:{},name:{},page:{}", goodsSn, name, categoryId, page);
 
 	    //需要区分数据权限，如果属于品牌商管理员，则需要获取当前用户管理品牌店铺
 		List<Integer> brandIds = null;
@@ -83,7 +83,7 @@ public class AdminGoodsController {
 			}
 		}
 		
-		return adminGoodsService.list(goodsSn, name, page, limit, sort, order, brandIds);
+		return adminGoodsService.list(goodsSn, name, page, limit, sort, order, brandIds, categoryId);
 	}
 
 	@GetMapping("/catAndBrand")

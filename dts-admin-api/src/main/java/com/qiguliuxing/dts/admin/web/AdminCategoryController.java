@@ -81,11 +81,14 @@ public class AdminCategoryController {
 	@PostMapping("/delete")
 	public Object delete(@RequestBody DtsCategory category) {
 		logger.info("【请求开始】操作人:[" + AuthSupport.userName()+ "] 商场管理->类目管理->删除,请求参数:{}", JSONObject.toJSONString(category));
-
-		categoryService.deleteCategoryById(category.getId());
-
-		logger.info("【请求结束】商场管理->类目管理->删除:响应结果:{}", "成功!");
-		return ResponseUtil.ok();
+		if (category.getGoodsNum().equals("0")){
+			categoryService.deleteCategoryById(category.getId());
+			logger.info("【请求结束】商场管理->类目管理->删除:响应结果:{}", "成功!");
+			return ResponseUtil.ok();
+		}else {
+			logger.info("【请求结束】商场管理->类目管理->删除:响应结果:{}", "失败!");
+			return ResponseUtil.fail(406,"该分类存在商品,无法删除!");
+		}
 	}
 
 	@RequiresPermissions("admin:category:update")

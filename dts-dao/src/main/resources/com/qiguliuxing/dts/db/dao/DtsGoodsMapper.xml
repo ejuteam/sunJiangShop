@@ -62,6 +62,9 @@
     <if test="name != '' and name != null">
       and instr(t1.name,#{name}) > 0
     </if>
+    <if test="categoryId != '' and categoryId != null">
+      and t1.category_id = #{categoryId}
+    </if>
   </select>
 
   <select id="findById" parameterType="string" resultType="com.qiguliuxing.dts.db.domain.DtsGoods">

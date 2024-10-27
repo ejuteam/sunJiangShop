@@ -67,8 +67,8 @@ public class AdminGoodsService {
 	@Autowired
 	private AdminDataAuthService adminDataAuthService;
 
-	public Object list(String goodsSn, String name, Integer page, Integer limit, String sort, String order, List<Integer> brandIds) {
-		List<DtsGoods> goodsList = goodsService.queryGoodsList(goodsSn, name, page, limit);
+	public Object list(String goodsSn, String name, Integer page, Integer limit, String sort, String order, List<Integer> brandIds, String categoryId) {
+		List<DtsGoods> goodsList = goodsService.queryGoodsList(goodsSn, name, categoryId, page, limit);
 		long total = PageInfo.of(goodsList).getTotal();
 		Map<String, Object> data = new HashMap<>();
 		data.put("total", total);

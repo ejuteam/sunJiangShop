@@ -6,16 +6,19 @@
         <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="goods_num" jdbcType="VARCHAR" property="goodsNum" />
     </resultMap>
 
     <select id="selectCategoryList" parameterType="com.qiguliuxing.dts.db.domain.DtsCategory" resultMap="CategoryResultMap">
-        select id,name from dts_category where 1=1
+        select t1.id,t1.name,count(t2.id) goods_num from dts_category t1 left join dts_goods t2 on t1.id = t2.category_id
+        where 1=1
         <if test="id != '' and id != null">
-            and id = #{id}
+            and t1.id = #{id}
         </if>
         <if test="name != '' and name != null">
-            and instr(name,#{name}) > 0
+            and instr(t1.name,#{name}) > 0
         </if>
+        group by t1.id,t1.name
     </select>
 
     <select id="findCategoryByGoodsId" parameterType="string" resultType="com.qiguliuxing.dts.db.domain.DtsCategory">

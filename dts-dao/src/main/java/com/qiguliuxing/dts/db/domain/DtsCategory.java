@@ -15,4 +15,6 @@ public class DtsCategory {
     private LocalDateTime addTime;
 
     private LocalDateTime updateTime;
+
+    private String goodsNum;
 }

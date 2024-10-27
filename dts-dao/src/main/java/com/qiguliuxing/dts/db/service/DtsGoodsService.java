@@ -132,13 +132,16 @@ public class DtsGoodsService {
 		return null;
 	}
 
-	public List<DtsGoods> queryGoodsList(String goodsSn, String name, Integer page, Integer size) {
+	public List<DtsGoods> queryGoodsList(String goodsSn, String name, String categoryId,Integer page, Integer size) {
 		DtsGoods dtsGoods = new DtsGoods();
 		if (goodsSn != null && !goodsSn.isEmpty()) {
 			dtsGoods.setGoodsSn(goodsSn);
 		}
 		if (name != null && !name.isEmpty()) {
 			dtsGoods.setName(name);
+		}
+		if (categoryId != null && !categoryId.isEmpty()) {
+			dtsGoods.setCategoryId(categoryId);
 		}
 
 		PageHelper.startPage(page, size);
