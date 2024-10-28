@@ -3,10 +3,7 @@ package com.qiguliuxing.dts.db.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import javax.annotation.Resource;
 
@@ -50,7 +47,7 @@ public class DtsOrderService {
 	public List<DtsOrder> findById(Integer orderId) {
 		DtsOrder dtsOrder = new DtsOrder();
 		dtsOrder.setId(orderId);
-		return dtsOrderMapper.queryOrderList(dtsOrder);
+		return dtsOrderMapper.queryOrderList(dtsOrder,null);
 	}
 
 	private String getRandomNum(Integer num) {
@@ -112,10 +109,11 @@ public class DtsOrderService {
 		if (!StringUtils.isEmpty(payEndDate)) {
 			dtsOrder.setPayEndDate(payEndDate);
 		}
+
 		dtsOrder.setDeleted(false);
 
 		PageHelper.startPage(page, size);
-		return dtsOrderMapper.queryOrderList(dtsOrder);
+		return dtsOrderMapper.queryOrderList(dtsOrder,orderStatusArray);
 	}
 
 	public int updateWithOptimisticLocker(DtsOrder order) {
@@ -139,7 +137,7 @@ public class DtsOrderService {
 		DtsOrder dtsOrder = new DtsOrder();
 		dtsOrder.setOrderStatus(OrderUtil.STATUS_CREATE);
 		dtsOrder.setDeleted(false);
-		return dtsOrderMapper.queryOrderList(dtsOrder);
+		return dtsOrderMapper.queryOrderList(dtsOrder,null);
 	}
 
 	public List<DtsOrder> queryUnconfirm() {/*

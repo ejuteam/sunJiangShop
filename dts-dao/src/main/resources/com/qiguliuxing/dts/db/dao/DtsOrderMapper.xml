@@ -29,7 +29,7 @@
     <result column="settlement_status" jdbcType="BIT" property="settlementStatus" />
   </resultMap>
 
-  <select id="queryOrderList" parameterType="com.qiguliuxing.dts.db.domain.DtsOrder" resultMap="DtsOrderResultMap">
+  <select id="queryOrderList" parameterType="map" resultMap="DtsOrderResultMap">
     SELECT
       id,
       user_id,
@@ -61,23 +61,29 @@
       create_user_id
     FROM dts_order
     WHERE 1=1
-    <if test="id != null and id != ''">
-      AND id = #{id}
+    <if test="dtsOrder.id != null and dtsOrder.id != ''">
+      AND id = #{dtsOrder.id}
     </if>
-    <if test="userId != null and userId != ''">
-      AND user_id = #{userId}
+    <if test="dtsOrder.userId != null and dtsOrder.userId != ''">
+      AND user_id = #{dtsOrder.userId}
     </if>
-    <if test="orderSn != null and orderSn != ''">
-      AND order_sn = #{orderSn}
+    <if test="dtsOrder.orderSn != null and dtsOrder.orderSn != ''">
+      AND order_sn = #{dtsOrder.orderSn}
     </if>
-    <if test="orderStatus != null and orderStatus != ''">
-      and order_status = #{orderStatus}
+    <if test="dtsOrder.orderStatus != null and dtsOrder.orderStatus != '' and orderStatusArray = null">
+      and order_status = #{dtsOrder.orderStatus}
     </if>
-    <if test="deleted != null and deleted != ''">
-      and deleted = #{deleted}
+    <if test="dtsOrder.deleted != null and dtsOrder.deleted != ''">
+      and deleted = #{dtsOrder.deleted}
     </if>
-    <if test="payStartDate != null and payEndDate != null">
-      and DATE_FORMAT(pay_time, '%Y%m%d') between #{payStartDate} and #{payEndDate}
+    <if test="dtsOrder.payStartDate != null and dtsOrder.payEndDate != null">
+      and DATE_FORMAT(pay_time, '%Y%m%d') between #{dtsOrder.payStartDate} and #{dtsOrder.payEndDate}
+    </if>
+    <if test="orderStatusArray != null and orderStatusArray.size > 0">
+      AND order_status IN
+      <foreach item="status" collection="orderStatusArray" open="(" separator="," close=")">
+        #{status}
+      </foreach>
     </if>
   </select>
 </mapper>
