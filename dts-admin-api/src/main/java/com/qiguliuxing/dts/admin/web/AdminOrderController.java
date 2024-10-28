@@ -118,7 +118,7 @@ public class AdminOrderController {
 	/**
 	 * 回复订单商品
 	 *
-	 * @param body 订单信息，{ orderId：xxx }
+	 * @param  订单信息，{ orderId：xxx }
 	 * @return 订单操作结果
 	 */
 	@RequiresPermissions("admin:order:listShip")

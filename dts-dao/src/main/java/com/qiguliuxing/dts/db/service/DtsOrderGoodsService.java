@@ -15,16 +15,26 @@ public class DtsOrderGoodsService {
 	@Resource
 	private DtsOrderGoodsMapper orderGoodsMapper;
 
-	public int add(DtsOrderGoods orderGoods) {
+	public List<DtsOrderGoods> queryByOid(Integer orderId) {
+		DtsOrderGoods dtsOrderGoods = new DtsOrderGoods();
+		dtsOrderGoods.setOrderId(orderId);
+		return orderGoodsMapper.selectDtsOrderGoodsList(dtsOrderGoods);
+	}
+
+	public boolean checkExist(String goodsId) {
+		DtsOrderGoods dtsOrderGoods = new DtsOrderGoods();
+		dtsOrderGoods.setGoodsId(Integer.valueOf(goodsId));
+		return orderGoodsMapper.countByGid(dtsOrderGoods) != 0;
+	}
+
+	public void updateById(DtsOrderGoods orderGoods) {
+		orderGoods.setUpdateTime(LocalDateTime.now());
+		orderGoodsMapper.updateOrderGoodsById(orderGoods);
+	}
+	/*public int add(DtsOrderGoods orderGoods) {
 		orderGoods.setAddTime(LocalDateTime.now());
 		orderGoods.setUpdateTime(LocalDateTime.now());
 		return orderGoodsMapper.insertSelective(orderGoods);
-	}
-
-	public List<DtsOrderGoods> queryByOid(Integer orderId) {
-		DtsOrderGoodsExample example = new DtsOrderGoodsExample();
-		example.or().andOrderIdEqualTo(orderId).andDeletedEqualTo(false);
-		return orderGoodsMapper.selectByExample(example);
 	}
 
 	public List<DtsOrderGoods> findByOidAndGid(Integer orderId, String goodsId) {
@@ -37,21 +47,11 @@ public class DtsOrderGoodsService {
 		return orderGoodsMapper.selectByPrimaryKey(id);
 	}
 
-	public void updateById(DtsOrderGoods orderGoods) {
-		orderGoods.setUpdateTime(LocalDateTime.now());
-		orderGoodsMapper.updateByPrimaryKeySelective(orderGoods);
-	}
-
 	public Short getComments(Integer orderId) {
 		DtsOrderGoodsExample example = new DtsOrderGoodsExample();
 		example.or().andOrderIdEqualTo(orderId).andDeletedEqualTo(false);
 		long count = orderGoodsMapper.countByExample(example);
 		return (short) count;
 	}
-
-	public boolean checkExist(String goodsId) {
-		DtsOrderGoodsExample example = new DtsOrderGoodsExample();
-		example.or().andGoodsIdEqualTo(goodsId).andDeletedEqualTo(false);
-		return orderGoodsMapper.countByExample(example) != 0;
-	}
+	}*/
 }
