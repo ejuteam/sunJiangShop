@@ -37,6 +37,10 @@ public class DtsOrderService {
 		return 1;
 	}
 
+	public void updateOrderStatusById (DtsOrder order){
+		dtsOrderMapper.updateOrderStatusById(order);
+	}
+
 	public int count(Integer userId) {/*
 		DtsOrderExample example = new DtsOrderExample();
 		example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);

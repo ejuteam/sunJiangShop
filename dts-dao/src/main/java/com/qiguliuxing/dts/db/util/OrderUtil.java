@@ -19,6 +19,7 @@ import com.qiguliuxing.dts.db.domain.DtsOrderGoods;
  * 301 商家发货，用户未确认；													待收货
  * 401 用户确认收货，订单结束；													已完成/待评价
  * 402 用户没有确认收货，但是快递反馈已收获后，超过一定时间，系统自动确认收货，订单结束。	已完成/待评价
+ * 403 已评价订单更改为已完成
  *
  * 当101用户未付款时，此时用户可以进行的操作是取消或者付款
  * 当201支付完成而商家未发货时，此时用户可以退款
@@ -32,7 +33,8 @@ import com.qiguliuxing.dts.db.domain.DtsOrderGoods;
  * 待收货：301
  * 待处理：202
  * 已处理：203
- * 已完成/待评价：401、402
+ * 待评价：401、402
+ * 已完成：403
  */
 public class OrderUtil {
 
@@ -45,12 +47,13 @@ public class OrderUtil {
 	public static final Short STATUS_REFUND = 202;
 	public static final Short STATUS_REFUND_CONFIRM = 203;
 	public static final Short STATUS_AUTO_CONFIRM = 402;
+	public static final Short STATUS_FINISH = 403;
 
 	public static String orderStatusText(DtsOrder order) {
 		int status = order.getOrderStatus().intValue();
 
 		if (status == 101) {
-			return "未付款";
+			return "待付款";
 		}
 
 		if (status == 102) {
@@ -62,7 +65,7 @@ public class OrderUtil {
 		}
 
 		if (status == 201) {
-			return "已付款";
+			return "待发货";
 		}
 
 		if (status == 202) {
@@ -70,19 +73,23 @@ public class OrderUtil {
 		}
 
 		if (status == 203) {
-			return "已退款";
+			return "已处理";
 		}
 
 		if (status == 301) {
-			return "已发货";
+			return "待收货";
 		}
 
 		if (status == 401) {
-			return "已收货";
+			return "待评价";
 		}
 
 		if (status == 402) {
-			return "已收货(系统)";
+			return "待评价";
+		}
+
+		if (status == 403) {
+			return "已完成";
 		}
 
 		throw new IllegalStateException("orderStatus不支持");

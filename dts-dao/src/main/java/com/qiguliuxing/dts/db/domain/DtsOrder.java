@@ -15,7 +15,7 @@ public class DtsOrder {
     private String address; // 收货具体地址
     private String message; // 用户订单留言
     private BigDecimal goodsPrice; // 商品总费用
-    private BigDecimal freightPrice; // 配送费用
+    private BigDecimal freightPrice; // 邮费
     private BigDecimal orderPrice; // 订单费用 = goods_price + freight_price - coupon_price
     private BigDecimal actualPrice; // 实付费用 = order_price - integral_price
     private String payId; // 微信付款编号

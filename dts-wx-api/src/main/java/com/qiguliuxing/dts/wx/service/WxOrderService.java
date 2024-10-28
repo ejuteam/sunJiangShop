@@ -246,7 +246,7 @@ public class WxOrderService {
 		}
 
 		// 订单信息
-		DtsOrder order = orderService.findById(orderId);
+		DtsOrder order = orderService.findById(orderId).get(0);
 		if (null == order) {
 			logger.error("获取订单详情失败：{}", ORDER_UNKNOWN.desc());
 			return WxResponseUtil.fail(ORDER_UNKNOWN);
@@ -264,7 +264,9 @@ public class WxOrderService {
 		orderVo.put("address", order.getAddress());
 		orderVo.put("goodsPrice", order.getGoodsPrice());
 		orderVo.put("freightPrice", order.getFreightPrice());
+/*
 		orderVo.put("discountPrice", order.getIntegralPrice().add(order.getGrouponPrice()).add(order.getCouponPrice()));
+*/
 		orderVo.put("actualPrice", order.getActualPrice());
 		orderVo.put("orderStatusText", OrderUtil.orderStatusText(order));
 		orderVo.put("handleOption", OrderUtil.build(order));
@@ -460,17 +462,17 @@ public class WxOrderService {
 		order.setAddress(detailedAddress);
 		order.setGoodsPrice(goodsTotalPrice);
 		order.setFreightPrice(totalFreightPrice);
-		order.setCouponPrice(couponPrice);
-		order.setIntegralPrice(integralPrice);
+		//order.setCouponPrice(couponPrice);
+		//order.setIntegralPrice(integralPrice);
 		order.setOrderPrice(orderTotalPrice);
 		order.setActualPrice(actualPrice);
 
 		// 有团购活动
-		if (grouponRules != null) {
+		/*if (grouponRules != null) {
 			order.setGrouponPrice(grouponPrice); // 团购价格
 		} else {
 			order.setGrouponPrice(new BigDecimal(0.00)); // 团购价格
-		}
+		}*/
 
 		// 新增代理的结算金额计算
 		DtsUser user = userService.findById(userId);
@@ -589,7 +591,7 @@ public class WxOrderService {
 			return ResponseUtil.badArgument();
 		}
 
-		DtsOrder order = orderService.findById(orderId);
+		DtsOrder order = orderService.findById(orderId).get(0);
 		if (order == null) {
 			return ResponseUtil.badArgumentValue();
 		}
@@ -647,7 +649,7 @@ public class WxOrderService {
 			return ResponseUtil.badArgument();
 		}
 
-		DtsOrder order = orderService.findById(orderId);
+		DtsOrder order = orderService.findById(orderId).get(0);
 		if (order == null) {
 			return ResponseUtil.badArgumentValue();
 		}
@@ -817,7 +819,7 @@ public class WxOrderService {
 					// 只有当团购规格商品ID符合才进行团购优惠
 					if (grouponRules != null && grouponRules.getGoodsId().equals(orderGoods.getGoodsId())) {
 						BigDecimal grouponPrice = grouponRules.getDiscount();
-						childOrder.setGrouponPrice(grouponPrice);
+						//childOrder.setGrouponPrice(grouponPrice);
 						bandGoodsTotalPrice = bandGoodsTotalPrice.add(orderGoods.getPrice().subtract(grouponPrice)
 								.multiply(new BigDecimal(orderGoods.getNumber())));
 					} else {
@@ -847,16 +849,16 @@ public class WxOrderService {
 				BigDecimal calcChildOrderPrice = childOrder.getGoodsPrice().add(childOrder.getFreightPrice());
 
 				BigDecimal rate = calcChildOrderPrice.divide(calcOldOrderPrice, 8, BigDecimal.ROUND_UP);
-				BigDecimal couponPrice = order.getCouponPrice().multiply(rate).setScale(2, BigDecimal.ROUND_UP);
-				BigDecimal integralPrice = order.getIntegralPrice().multiply(rate).setScale(2, BigDecimal.ROUND_UP);
+				//BigDecimal couponPrice = order.getCouponPrice().multiply(rate).setScale(2, BigDecimal.ROUND_UP);
+				//BigDecimal integralPrice = order.getIntegralPrice().multiply(rate).setScale(2, BigDecimal.ROUND_UP);
 				BigDecimal settlementMoney = order.getSettlementMoney().multiply(rate).setScale(2,
 						BigDecimal.ROUND_DOWN);
 
-				BigDecimal orderPrice = bandGoodsTotalPrice.add(bandFreightPrice).subtract(couponPrice);
-				BigDecimal actualPrice = orderPrice.subtract(integralPrice);
+				BigDecimal orderPrice = bandGoodsTotalPrice.add(bandFreightPrice);//.subtract(couponPrice);
+				BigDecimal actualPrice = orderPrice;//.subtract(integralPrice);
 
-				childOrder.setCouponPrice(couponPrice);
-				childOrder.setIntegralPrice(integralPrice);
+				//childOrder.setCouponPrice(couponPrice);
+				//childOrder.setIntegralPrice(integralPrice);
 				childOrder.setSettlementMoney(settlementMoney);
 				childOrder.setOrderPrice(orderPrice);
 				childOrder.setActualPrice(actualPrice);
@@ -865,9 +867,9 @@ public class WxOrderService {
 				dtsOrders.add(childOrder);
 				// 添加订单表项
 				logger.info(childOrder.toString());
-				if (childOrder.getGrouponPrice() == null) {
+				/*if (childOrder.getGrouponPrice() == null) {
 					childOrder.setGrouponPrice(new BigDecimal(0.00));
-				}
+				}*/
 				orderService.add(childOrder);
 				Integer childOrderId = childOrder.getId();
 				orderIds = orderIds + "," + childOrderId.intValue();
@@ -1011,7 +1013,7 @@ public class WxOrderService {
 			return ResponseUtil.badArgument();
 		}
 
-		DtsOrder order = orderService.findById(orderId);
+		DtsOrder order = orderService.findById(orderId).get(0);
 		if (order == null) {
 			return ResponseUtil.badArgument();
 		}
@@ -1071,7 +1073,7 @@ public class WxOrderService {
 			return ResponseUtil.badArgument();
 		}
 
-		DtsOrder order = orderService.findById(orderId);
+		DtsOrder order = orderService.findById(orderId).get(0);
 		if (order == null) {
 			return ResponseUtil.badArgument();
 		}
@@ -1120,7 +1122,7 @@ public class WxOrderService {
 			return ResponseUtil.badArgument();
 		}
 
-		DtsOrder order = orderService.findById(orderId);
+		DtsOrder order = orderService.findById(orderId).get(0);
 		if (order == null) {
 			return ResponseUtil.badArgument();
 		}
@@ -1200,7 +1202,7 @@ public class WxOrderService {
 			return ResponseUtil.badArgumentValue();
 		}
 		Integer orderId = orderGoods.getOrderId();
-		DtsOrder order = orderService.findById(orderId);
+		DtsOrder order = orderService.findById(orderId).get(0);
 		if (order == null) {
 			return ResponseUtil.badArgumentValue();
 		}
@@ -1256,6 +1258,9 @@ public class WxOrderService {
 		}
 		order.setComments(commentCount);
 		orderService.updateWithOptimisticLocker(order);
+
+		//4.更新待评价订单未已完成
+		orderService.updateOrderStatusById(order);
 
 		logger.info("【请求结束】评价订单商品成功！");
 		return ResponseUtil.ok();
@@ -1361,7 +1366,7 @@ public class WxOrderService {
 		}
 
 		// 订单信息
-		DtsOrder order = orderService.findById(orderId);
+		DtsOrder order = orderService.findById(orderId).get(0);
 		if (null == order) {
 			logger.error("订单物流跟踪失败：{}", ORDER_UNKNOWN.desc());
 			return WxResponseUtil.fail(ORDER_UNKNOWN);

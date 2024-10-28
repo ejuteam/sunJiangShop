@@ -86,4 +86,8 @@
       </foreach>
     </if>
   </select>
+
+  <update id="updateOrderStatusById" parameterType="com.qiguliuxing.dts.db.domain.DtsOrder">
+    update dts_order set order_status = #{orderStatus}
+  </update>
 </mapper>

@@ -7,4 +7,6 @@ import org.apache.ibatis.annotations.Param;
 
 public interface DtsOrderMapper {
     List<DtsOrder> queryOrderList(@Param("dtsOrder") DtsOrder dtsOrder, @Param("orderStatusArray") List<Short> orderStatusArray);
+
+    void updateOrderStatusById (DtsOrder order);
 }
