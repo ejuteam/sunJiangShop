@@ -19,6 +19,7 @@ target/
 **/.mvn
 **/target/
 **/.gitignore
+**/.yml
 
 ### Maven ###
 pom.xml.tag
@@ -35,3 +36,6 @@ buildNumber.properties
 # Compiled class file
 *.class
 
+/logs/admin.log.*
+/logs/admin-error.log.*
+/logs/admin-warn.log.*
