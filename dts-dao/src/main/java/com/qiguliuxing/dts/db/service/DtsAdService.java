@@ -45,7 +45,8 @@ public class DtsAdService {
 
 	public void deleteById(Integer id) {
 		//逻辑删除
-		adMapper.logicalDeleteAdById(id);
+		//adMapper.logicalDeleteAdById(id);
+		adMapper.deleteAdById(id);
 	}
 
 	public void add(DtsAd ad) {

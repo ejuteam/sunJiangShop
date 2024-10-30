@@ -13,6 +13,8 @@ public interface DtsAdMapper {
 
     int logicalDeleteAdById(Integer id);
 
+    int deleteAdById(Integer id);
+
     int insertAd(DtsAd record);
 
     DtsAd selectOneByID(@Param("id") Integer id);
