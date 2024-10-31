@@ -23,7 +23,7 @@ public class DtsAdService {
 		return adMapper.selectByExample(example);
 	}*/
 
-	public List<DtsAd> querySelective(String name, String content, Integer page, Integer limit, String sort,
+	public List<DtsAd> querySelective(String name, String content, String enabled, String goodsId, Integer page, Integer limit, String sort,
 			String order) {
 		DtsAd dtsAd = new DtsAd();
 
@@ -32,6 +32,12 @@ public class DtsAdService {
 		}
 		if (!StringUtils.isEmpty(content)) {
 			dtsAd.setContent(content);
+		}
+		if (!StringUtils.isEmpty(enabled)){
+			dtsAd.setEnabled(Integer.valueOf(enabled));
+		}
+		if( !StringUtils.isEmpty(goodsId)){
+			dtsAd.setGoodsId(goodsId);
 		}
 
 		PageHelper.startPage(page, limit);

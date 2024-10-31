@@ -6,12 +6,13 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="link" jdbcType="VARCHAR" property="link" />
     <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
     <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />
     <result column="position" jdbcType="TINYINT" property="position" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="enabled" jdbcType="BIT" property="enabled" />
+    <result column="enabled" jdbcType="INTEGER" property="enabled" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
@@ -19,21 +20,27 @@
 
   <select id="selectAdList" parameterType="com.qiguliuxing.dts.db.domain.DtsAd" resultMap="DtsAdResultMap">
     select
-    id, `name`, link, url, `position`, content, start_time, end_time, enabled, add_time,
-    update_time, deleted,goods_id
-    from dts_ad
+    t1.id, t1.`name`, t1.link, t1.url, t1.`position`, t1.content, t1.start_time, t1.end_time, t1.enabled, t1.add_time,
+    t1.update_time, t1.deleted,t1.goods_id, t2.name goods_name
+    from dts_ad t1 left join dts_goods t2 on t1.goods_id = t2.id
     where 1=1
     <!--<if test="id != null">
       AND id = #{id}
     </if>-->
     <if test="name != null and name != ''">
-      AND instr(name,#{name}) > 0
+      AND instr(t1.name,#{name}) > 0
+    </if>
+    <if test="enabled != null">
+      AND t1.enabled = #{enabled}
     </if>
     <!--<if test="position != null">
       AND `position` = #{position}
     </if>-->
     <if test="content != null and content != ''">
-      AND instr(content,#{content}) > 0
+      AND instr(t1.content,#{content}) > 0
+    </if>
+    <if test="goodsId != null and goodsId !=''">
+      AND t1.goods_id = #{goodsId}
     </if>
   </select>
 

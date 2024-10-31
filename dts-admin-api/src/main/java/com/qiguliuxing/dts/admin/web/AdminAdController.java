@@ -41,13 +41,12 @@ public class AdminAdController {
 	@RequiresPermissions("admin:ad:list")
 	@RequiresPermissionsDesc(menu = { "推广管理", "广告管理" }, button = "查询")
 	@GetMapping("/list")
-	public Object list(String name, String content, @RequestParam(defaultValue = "1") Integer page,
+	public Object list(String name, String content, String enabled, String goodsId, @RequestParam(defaultValue = "1") Integer page,
 			@RequestParam(defaultValue = "10") Integer limit,
 			@Sort @RequestParam(defaultValue = "add_time") String sort,
 			@Order @RequestParam(defaultValue = "desc") String order) {
 		logger.info("【请求开始】操作人:[" + AuthSupport.userName()+ "] 操作人:[" + AuthSupport.userName()+ "] 推广管理->广告管理->查询,请求参数:name:{},content:{},page:{}", name, content, page);
-
-		List<DtsAd> adList = adService.querySelective(name, content, page, limit, sort, order);
+		List<DtsAd> adList = adService.querySelective(name, content, enabled, goodsId, page, limit, sort, order);
 		long total = PageInfo.of(adList).getTotal();
 		Map<String, Object> data = new HashMap<>();
 		data.put("total", total);
@@ -58,14 +57,14 @@ public class AdminAdController {
 	}
 
 	private Object validate(DtsAd ad) {
-		String name = ad.getName();
+		/*String name = ad.getName();
 		if (StringUtils.isEmpty(name)) {
 			return ResponseUtil.badArgument();
 		}
 		String content = ad.getContent();
 		if (StringUtils.isEmpty(content)) {
 			return ResponseUtil.badArgument();
-		}
+		}*/
 		return null;
 	}
 
