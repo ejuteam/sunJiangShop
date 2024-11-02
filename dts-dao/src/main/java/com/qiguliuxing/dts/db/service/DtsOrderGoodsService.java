@@ -23,7 +23,7 @@ public class DtsOrderGoodsService {
 
 	public boolean checkExist(String goodsId) {
 		DtsOrderGoods dtsOrderGoods = new DtsOrderGoods();
-		dtsOrderGoods.setGoodsId(Integer.valueOf(goodsId));
+		dtsOrderGoods.setGoodsId(goodsId);
 		return orderGoodsMapper.countByGid(dtsOrderGoods) != 0;
 	}
 
@@ -31,27 +31,29 @@ public class DtsOrderGoodsService {
 		orderGoods.setUpdateTime(LocalDateTime.now());
 		orderGoodsMapper.updateOrderGoodsById(orderGoods);
 	}
-	/*public int add(DtsOrderGoods orderGoods) {
+
+	public int add(DtsOrderGoods orderGoods) {
 		orderGoods.setAddTime(LocalDateTime.now());
 		orderGoods.setUpdateTime(LocalDateTime.now());
-		return orderGoodsMapper.insertSelective(orderGoods);
-	}
-
-	public List<DtsOrderGoods> findByOidAndGid(Integer orderId, String goodsId) {
-		DtsOrderGoodsExample example = new DtsOrderGoodsExample();
-		example.or().andOrderIdEqualTo(orderId).andGoodsIdEqualTo(goodsId).andDeletedEqualTo(false);
-		return orderGoodsMapper.selectByExample(example);
-	}
-
-	public DtsOrderGoods findById(Integer id) {
-		return orderGoodsMapper.selectByPrimaryKey(id);
+		return orderGoodsMapper.addOrderGoods(orderGoods);
 	}
 
 	public Short getComments(Integer orderId) {
-		DtsOrderGoodsExample example = new DtsOrderGoodsExample();
+		/*DtsOrderGoodsExample example = new DtsOrderGoodsExample();
 		example.or().andOrderIdEqualTo(orderId).andDeletedEqualTo(false);
-		long count = orderGoodsMapper.countByExample(example);
+		long count = orderGoodsMapper.countByExample(example);*/
+		DtsOrderGoods dtsOrderGoods = new DtsOrderGoods();
+		dtsOrderGoods.setOrderId(orderId);
+		long count = orderGoodsMapper.countByDtsOrderGoods(dtsOrderGoods);
 		return (short) count;
 	}
-	}*/
+	public List<DtsOrderGoods> findByOidAndGid(Integer orderId, String goodsId) {
+		DtsOrderGoods dtsOrderGoods = new DtsOrderGoods();
+		dtsOrderGoods.setOrderId(orderId);
+		dtsOrderGoods.setGoodsId(goodsId);
+		return orderGoodsMapper.selectDtsOrderGoodsList(dtsOrderGoods);
+	}
+	public DtsOrderGoods findById(Integer id) {
+		return orderGoodsMapper.selectDtsOrderGoodsById(id);
+	}
 }

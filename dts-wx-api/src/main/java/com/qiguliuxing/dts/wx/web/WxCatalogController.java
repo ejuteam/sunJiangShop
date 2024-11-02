@@ -1,5 +1,6 @@
 package com.qiguliuxing.dts.wx.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,10 +44,11 @@ public class WxCatalogController {
 	public Object index(Integer id) {
 		logger.info("【请求开始】分类详情,请求参数,id:{}", id);
 		// 所有一级分类目录
-		List<DtsCategory> l1CatList = categoryService.queryL1();
-
-		// 当前一级分类目录
+		//List<DtsCategory> l1CatList = categoryService.queryL1();
+		List<DtsCategory> l1CatList = new ArrayList<>();
 		DtsCategory currentCategory = null;
+		// 当前一级分类目录
+		/*DtsCategory currentCategory = null;
 		if (id != null) {
 			currentCategory = categoryService.findById(id);
 		} else {
@@ -57,7 +59,8 @@ public class WxCatalogController {
 		List<DtsCategory> currentSubCategory = null;
 		if (null != currentCategory) {
 			currentSubCategory = categoryService.queryByPid(currentCategory.getId());
-		}
+		}*/
+		List<DtsCategory> currentSubCategory = categoryService.queryCategoryListAll(null,null);
 
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("categoryList", l1CatList);
@@ -82,7 +85,7 @@ public class WxCatalogController {
 		}
 
 		// 所有一级分类目录
-		List<DtsCategory> l1CatList = categoryService.queryL1();
+		/*List<DtsCategory> l1CatList = categoryService.queryL1();
 
 		// 所有子分类列表
 		Map<Integer, List<DtsCategory>> allList = new HashMap<>();
@@ -99,9 +102,13 @@ public class WxCatalogController {
 		List<DtsCategory> currentSubCategory = null;
 		if (null != currentCategory) {
 			currentSubCategory = categoryService.queryByPid(currentCategory.getId());
-		}
-
+		}*/
+		List<DtsCategory> l1CatList = null;
+		Map<Integer, List<DtsCategory>> allList = new HashMap<>();
 		Map<String, Object> data = new HashMap<String, Object>();
+		DtsCategory currentCategory = null;
+		List<DtsCategory> currentSubCategory = null;
+
 		data.put("categoryList", l1CatList);
 		data.put("allList", allList);
 		data.put("currentCategory", currentCategory);
@@ -131,8 +138,10 @@ public class WxCatalogController {
 		logger.info("【请求开始】当前分类栏目查询,id:{}", id);
 
 		// 当前分类
-		DtsCategory currentCategory = categoryService.findById(id);
-		List<DtsCategory> currentSubCategory = categoryService.queryByPid(currentCategory.getId());
+		/*DtsCategory currentCategory = categoryService.findById(id);
+		List<DtsCategory> currentSubCategory = categoryService.queryByPid(currentCategory.getId());*/
+		DtsCategory currentCategory = null;
+		List<DtsCategory> currentSubCategory = categoryService.queryCategoryListAll(null,null);
 
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("currentCategory", currentCategory);

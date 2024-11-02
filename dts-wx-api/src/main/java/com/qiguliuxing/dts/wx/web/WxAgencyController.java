@@ -77,7 +77,7 @@ public class WxAgencyController {
 		 */
 		DtsUser user = userService.findById(userId);
 		String shareUrl = null;
-		if (user.getUserLevel().equals((byte)2)) {//之所以代理用户与非代理用户分开，是为了减少海报图片的生成
+		/*if (user.getUserLevel().equals((byte)2)) {//之所以代理用户与非代理用户分开，是为了减少海报图片的生成
 			shareUrl = agencyService.getDtsAgencyShare(userId,type,shareObjId);
 			if (StringUtils.isEmpty(shareUrl)) {//如果不存在，则需要创建
 				shareUrl = wxAgencyService.createAgencyShareUrl(userId,type,shareObjId);
@@ -87,7 +87,7 @@ public class WxAgencyController {
 			if (StringUtils.isEmpty(shareUrl)) {// 如果不存在，则需要创建
 				shareUrl = wxAgencyService.createShareUrl(type,shareObjId);
 			}
-		}
+		}*/
 		
 		Map<String, Object> result = new HashMap<>();
 		result.put("shareUrl", shareUrl);

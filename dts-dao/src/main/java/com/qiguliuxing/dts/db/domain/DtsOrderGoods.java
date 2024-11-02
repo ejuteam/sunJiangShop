@@ -10,7 +10,7 @@ public class DtsOrderGoods {
     // Fields
     private Integer id;
     private Integer orderId;               // 订单表的订单ID
-    private Integer goodsId;               // 商品表的商品ID
+    private String goodsId;               // 商品表的商品ID
     private String goodsName;              // 商品名称
     private String goodsSn;                // 商品编号
     private Integer productId;             // 商品货品表的货品ID

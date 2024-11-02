@@ -200,7 +200,16 @@ public class WxHomeController {
 	@SuppressWarnings("rawtypes")
 	private List<Map> getCategoryList() {
 		List<Map> categoryList = new ArrayList<>();
-		List<DtsCategory> catL1List = categoryService.queryL1WithoutRecommend(0, SystemConfig.getCatlogListLimit());
+		List<DtsCategory> categories = categoryService.queryCategoryListAll(null,null);
+		categories.stream().forEach(item ->{
+			Map<String, Object> catGoods = new HashMap<>();
+			List<DtsGoods> categoryGoods = goodsService.queryByCategory(new ArrayList<>(),0,10);
+			catGoods.put("id",item.getId());
+			catGoods.put("name",item.getName());
+			catGoods.put("goodsList",categoryGoods);
+			categoryList.add(catGoods);
+		});
+		/*List<DtsCategory> catL1List = categoryService.queryL1WithoutRecommend(0, SystemConfig.getCatlogListLimit());
 		for (DtsCategory catL1 : catL1List) {
 			List<DtsCategory> catL2List = categoryService.queryByPid(catL1.getId());
 			List<Integer> l2List = new ArrayList<>();
@@ -220,7 +229,8 @@ public class WxHomeController {
 			catGoods.put("name", catL1.getName());
 			catGoods.put("goodsList", categoryGoods);
 			categoryList.add(catGoods);
-		}
+		}*/
+
 		return categoryList;
 	}
 }

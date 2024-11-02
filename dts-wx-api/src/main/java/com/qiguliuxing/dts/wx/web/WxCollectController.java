@@ -75,7 +75,7 @@ public class WxCollectController {
 			c.put("type", collect.getType());
 			c.put("valueId", collect.getValueId());
 
-			DtsGoods goods = goodsService.findById(collect.getValueId());
+			DtsGoods goods = goodsService.findById(collect.getValueId().toString());
 			c.put("name", goods.getName());
 			c.put("brief", goods.getBrief());
 			c.put("picUrl", goods.getPicUrl());

@@ -17,11 +17,14 @@ public class DtsAdService {
 	@Resource
 	private DtsAdMapper adMapper;
 
-	/*public List<DtsAd> queryIndex() {
-		DtsAdExample example = new DtsAdExample();
-		example.or().andPositionEqualTo((byte) 1).andDeletedEqualTo(false).andEnabledEqualTo(true);
-		return adMapper.selectByExample(example);
-	}*/
+	public List<DtsAd> queryIndex() {
+		//example.or().andPositionEqualTo((byte) 1).andDeletedEqualTo(false).andEnabledEqualTo(true);
+		DtsAd dtsAd = new DtsAd();
+		dtsAd.setPosition(1);
+		dtsAd.setDeleted(0);
+		dtsAd.setEnabled(1);
+		return adMapper.selectAdList(dtsAd);
+	}
 
 	public List<DtsAd> querySelective(String name, String content, String enabled, String goodsId, Integer page, Integer limit, String sort,
 			String order) {

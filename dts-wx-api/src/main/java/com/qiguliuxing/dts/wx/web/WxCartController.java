@@ -170,15 +170,15 @@ public class WxCartController {
 		}
 
 		// 判断商品是否可以购买
-		DtsGoods goods = goodsService.findById(goodsId);
-		if (goods == null || !goods.getIsOnSale()) {
+		DtsGoods goods = goodsService.findById(goodsId.toString());
+		if (goods == null || goods.getIsOnSale()!=1) {
 			logger.error("加入商品到购物车失败:{}", GOODS_UNSHELVE.desc());
 			return WxResponseUtil.fail(GOODS_UNSHELVE);
 		}
 
 		DtsGoodsProduct product = productService.findById(productId);
 		// 判断购物车中是否存在此规格商品
-		DtsCart existCart = cartService.queryExist(goodsId, productId, userId);
+		DtsCart existCart = cartService.queryExist(goodsId.toString(), productId, userId);
 		if (existCart == null) {
 			// 取得规格的信息,判断规格库存
 			if (product == null || number > product.getNumber()) {
@@ -245,15 +245,15 @@ public class WxCartController {
 		}
 
 		// 判断商品是否可以购买
-		DtsGoods goods = goodsService.findById(goodsId);
-		if (goods == null || !goods.getIsOnSale()) {
+		DtsGoods goods = goodsService.findById(goodsId.toString());
+		if (goods == null || goods.getIsOnSale()!=1) {
 			logger.error("立即购买失败:{}", GOODS_UNSHELVE.desc());
 			return WxResponseUtil.fail(GOODS_UNSHELVE);
 		}
 
 		DtsGoodsProduct product = productService.findById(productId);
 		// 判断购物车中是否存在此规格商品
-		DtsCart existCart = cartService.queryExist(goodsId, productId, userId);
+		DtsCart existCart = cartService.queryExist(goodsId.toString(), productId, userId);
 		if (existCart == null) {
 			// 取得规格的信息,判断规格库存
 			if (product == null || number > product.getNumber()) {
@@ -332,8 +332,8 @@ public class WxCartController {
 		}
 
 		// 判断商品是否可以购买
-		DtsGoods goods = goodsService.findById(goodsId);
-		if (goods == null || !goods.getIsOnSale()) {
+		DtsGoods goods = goodsService.findById(goodsId.toString());
+		if (goods == null || goods.getIsOnSale()!=1) {
 			logger.error("修改购物车失败:{}", GOODS_UNSHELVE.desc());
 			return WxResponseUtil.fail(GOODS_UNSHELVE);
 		}

@@ -122,7 +122,7 @@ public class WxGrouponController {
 		}
 
 		// 订单信息
-		DtsOrder order = orderService.findById(groupon.getOrderId());
+		DtsOrder order = orderService.findById(groupon.getOrderId()).get(0);
 		if (null == order) {
 			logger.error("获取团购活动详情出错:{}", ORDER_UNKNOWN.desc());
 			return WxResponseUtil.fail(ORDER_UNKNOWN);
@@ -223,7 +223,7 @@ public class WxGrouponController {
 			return ResponseUtil.badArgumentValue();
 		}
 
-		DtsGoods goods = goodsService.findById(rules.getGoodsId().intValue());
+		DtsGoods goods = goodsService.findById(String.valueOf(rules.getGoodsId().intValue()));
 		if (goods == null) {
 			return ResponseUtil.badArgumentValue();
 		}
@@ -267,7 +267,7 @@ public class WxGrouponController {
 		DtsGrouponRules rules;
 		DtsUser creator;
 		for (DtsGroupon groupon : myGroupons) {
-			order = orderService.findById(groupon.getOrderId());
+			order = orderService.findById(groupon.getOrderId()).get(0);
 			rules = rulesService.queryById(groupon.getRulesId());
 			creator = userService.findById(groupon.getCreatorUserId());
 
@@ -330,7 +330,7 @@ public class WxGrouponController {
 	public Object query(@NotNull Integer goodsId) {
 		logger.info("【请求开始】商品所对应的团购规则,请求参数,goodsId:{}", goodsId);
 
-		DtsGoods goods = goodsService.findById(goodsId);
+		DtsGoods goods = goodsService.findById(goodsId.toString());
 		if (goods == null) {
 			logger.error("商品所对应的团购规则:{}", GOODS_UNKNOWN.desc());
 			return WxResponseUtil.fail(GOODS_UNKNOWN);

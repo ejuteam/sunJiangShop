@@ -68,7 +68,7 @@ public class WxCommentController {
 			return ResponseUtil.badArgument();
 		}
 		if (type == 0) {
-			if (goodsService.findById(valueId) == null) {
+			if (goodsService.findById(valueId.toString()) == null) {
 				return ResponseUtil.badArgumentValue();
 			}
 		} else if (type == 1) {

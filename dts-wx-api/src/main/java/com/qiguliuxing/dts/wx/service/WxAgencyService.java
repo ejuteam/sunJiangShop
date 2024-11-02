@@ -36,22 +36,22 @@ public class WxAgencyService {
 	 * @param shareObjId
 	 * @return
 	 */
-	public String createAgencyShareUrl(Integer userId, Integer type, Integer shareObjId) {
+	public String createAgencyShareUrl(Integer userId, Integer type, String shareObjId) {
 		String shareUrl = null;
 		try {
 			if (type.intValue() == AgencyShareTypeEnum.GOODS_SHARE.getType().intValue()) {// 商品
 				// 商品信息
 				DtsGoods goods = goodsService.findById(shareObjId);
 				// 将生成的分享图片到存储空间
-				shareUrl = qCodeService.createGoodShareImage(userId,goods.getId().toString(), goods.getPicUrl(),
-						goods.getName(), goods.getCounterPrice(), goods.getRetailPrice());
+				/*shareUrl = qCodeService.createGoodShareImage(userId,goods.getId().toString(), goods.getPicUrl(),
+						goods.getName(), goods.getCounterPrice(), goods.getRetailPrice());*/
 				
 			} else if (type.intValue() == AgencyShareTypeEnum.BRAND_SHARE.getType().intValue()) {// 入驻店铺
 				// 生成店铺的分享URL
-				DtsBrand brand = brandService.findById(shareObjId);
+				/*DtsBrand brand = brandService.findById(shareObjId);
 				String defaultCategory = brandService.getBrandCategory(brand.getDefaultCategoryId());
 				shareUrl = qCodeService.createBrandImage(userId,brand.getId(), brand.getPicUrl(), brand.getName(),
-						defaultCategory);
+						defaultCategory);*/
 
 			} else {// 其他暂时不考虑
 			}
@@ -60,7 +60,7 @@ public class WxAgencyService {
 			e.printStackTrace();
 		}
 
-		agencyService.saveDtsAgencyShare(userId, type, shareObjId, shareUrl);// 代理用户的需要保存记录
+		//agencyService.saveDtsAgencyShare(userId, type, shareObjId, shareUrl);// 代理用户的需要保存记录
 		return shareUrl;
 	}
 
@@ -73,7 +73,7 @@ public class WxAgencyService {
 	 */
 	public String getShareObjUrl(Integer type, Integer shareObjId) {
 		String shareUrl = null;
-		if (type.intValue() == AgencyShareTypeEnum.GOODS_SHARE.getType().intValue()) {// 商品
+		/*if (type.intValue() == AgencyShareTypeEnum.GOODS_SHARE.getType().intValue()) {// 商品
 			// 商品信息
 			DtsGoods goods = goodsService.findById(shareObjId);
 			if (goods != null) {
@@ -85,7 +85,7 @@ public class WxAgencyService {
 				shareUrl = brand.getShareUrl();
 			}
 		} else {// 其他暂时不考虑
-		}
+		}*/
 		logger.info("获取 {} 的分享海报 url {}", AgencyShareTypeEnum.getInstance(type).getDesc(), shareUrl);
 		return shareUrl;
 	}
@@ -99,7 +99,7 @@ public class WxAgencyService {
 	 */
 	public String createShareUrl(Integer type, Integer shareObjId) {
 		String shareUrl = null;
-		try {
+		try {/*
 			if (type.intValue() == AgencyShareTypeEnum.GOODS_SHARE.getType().intValue()) {// 商品
 				// 商品信息
 				DtsGoods goods = goodsService.findById(shareObjId);
@@ -123,7 +123,7 @@ public class WxAgencyService {
 				brandService.updateById(brand);
 
 			} else {// 其他暂时不考虑
-			}
+			}*/
 		} catch (Exception e) {
 			logger.error("生成分享海报URL出错：{}", e.getMessage());
 			e.printStackTrace();

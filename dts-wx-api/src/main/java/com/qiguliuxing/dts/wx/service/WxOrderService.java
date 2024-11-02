@@ -498,7 +498,7 @@ public class WxOrderService {
 			// 订单商品
 			DtsOrderGoods orderGoods = new DtsOrderGoods();
 			orderGoods.setOrderId(order.getId());
-			orderGoods.setGoodsId(cartGoods.getGoodsId());
+			orderGoods.setGoodsId(cartGoods.getGoodsId().toString());
 			orderGoods.setGoodsSn(cartGoods.getGoodsSn());
 			orderGoods.setProductId(cartGoods.getProductId());
 			orderGoods.setGoodsName(cartGoods.getGoodsName());
@@ -508,7 +508,7 @@ public class WxOrderService {
 			orderGoods.setSpecifications(cartGoods.getSpecifications());
 			orderGoods.setAddTime(LocalDateTime.now());
 
-			orderGoods.setBrandId(cartGoods.getBrandId());// 订单商品需加上入驻店铺标志
+			//orderGoods.setBrandId(cartGoods.getBrandId());// 订单商品需加上入驻店铺标志
 
 			orderGoodsService.add(orderGoods);
 		}
@@ -968,7 +968,7 @@ public class WxOrderService {
 	 */
 	private List<BrandOrderGoods> divideMultiBrandOrderGoods(List<DtsOrderGoods> orderGoodsList) {
 		List<BrandOrderGoods> brandOrderGoodsList = new ArrayList<BrandOrderGoods>();
-		for (int i = 0; i < orderGoodsList.size(); i++) {
+		/*for (int i = 0; i < orderGoodsList.size(); i++) {
 			DtsOrderGoods dog = orderGoodsList.get(i);
 			Integer brandId = dog.getBrandId();
 			boolean hasExsist = false;
@@ -987,7 +987,7 @@ public class WxOrderService {
 				bog.setOrderGoodsList(childOrderGoodslist);
 				brandOrderGoodsList.add(bog);
 			}
-		}
+		}*/
 
 		return brandOrderGoodsList;
 	}
@@ -1240,7 +1240,7 @@ public class WxOrderService {
 		DtsComment comment = new DtsComment();
 		comment.setUserId(userId);
 		comment.setType((byte) 0);
-		comment.setValueId(orderGoods.getGoodsId());
+		comment.setValueId(Integer.valueOf(orderGoods.getGoodsId()));
 		comment.setStar(star.shortValue());
 		comment.setContent(content);
 		comment.setHasPicture(hasPicture);

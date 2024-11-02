@@ -32,6 +32,23 @@ public class DtsCategoryService {
 		return categoryMapper.selectCategoryList(dtsCategory);
 	}
 
+	public List<DtsCategory> queryCategoryListAll(String id, String name) {
+		DtsCategory dtsCategory = new DtsCategory();
+		if (id != null && !id.isEmpty()) {
+			dtsCategory.setId(id);
+		}
+		if (name != null && !name.isEmpty()) {
+			dtsCategory.setName(name);
+		}
+
+		return categoryMapper.selectCategoryList(dtsCategory);
+	}
+
+	public List<DtsCategory> queryChannel() {
+		PageHelper.startPage(1, 9);// 设置分页10
+		return categoryMapper.selectCategoryList(new DtsCategory());
+	}
+
 	public void addCategory(DtsCategory category) {
 		IdGenerator idGenerator = new IdGenerator();
 		category.setId(idGenerator.getStrId());
@@ -53,12 +70,16 @@ public class DtsCategoryService {
 		return categoryMapper.findCategoryByGoodsId(goodsId);
 	}
 
-	/*public List<DtsCategory> queryL1WithoutRecommend(int offset, int limit) {
-		DtsCategoryExample example = new DtsCategoryExample();
-		example.or().andLevelEqualTo("L1").andNameNotEqualTo("推荐").andDeletedEqualTo(false);
+	public List<DtsCategory> queryL1WithoutRecommend(int offset, int limit) {
+		/*DtsCategoryExample example = new DtsCategoryExample();
+		example.or().andLevelEqualTo("L1").andNameNotEqualTo("推荐").andDeletedEqualTo(false);*/
+		DtsCategory dtsCategory = new DtsCategory();
 		PageHelper.startPage(offset, limit);
-		return categoryMapper.selectByExample(example);
+		return categoryMapper.selectCategoryList(dtsCategory);
+		//return categoryMapper.selectByExample(example);
 	}
+
+	/*
 
 	public List<DtsCategory> queryL1(int offset, int limit) {
 		DtsCategoryExample example = new DtsCategoryExample();
@@ -88,13 +109,5 @@ public class DtsCategoryService {
 	public DtsCategory findById(Integer id) {
 		return categoryMapper.selectByPrimaryKey(id);
 	}
-
-
-
-	public List<DtsCategory> queryChannel() {
-		DtsCategoryExample example = new DtsCategoryExample();
-		example.or().andLevelEqualTo("L1").andDeletedEqualTo(false);
-		PageHelper.startPage(1, 9);// 设置分页10
-		return categoryMapper.selectByExampleSelective(example, CHANNEL);
-	}*/
+*/
 }

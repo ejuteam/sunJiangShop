@@ -110,7 +110,7 @@ public class WxFootprintController {
 			c.put("goodsId", footprint.getGoodsId());
 			c.put("addTime", footprint.getAddTime());
 
-			DtsGoods goods = goodsService.findById(footprint.getGoodsId());
+			DtsGoods goods = goodsService.findById(footprint.getGoodsId().toString());
 			c.put("name", goods.getName());
 			c.put("brief", goods.getBrief());
 			c.put("picUrl", goods.getPicUrl());
