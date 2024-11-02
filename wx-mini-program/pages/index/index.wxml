@@ -32,7 +32,7 @@
        </view>
     </view>
 
-
+ <!--
   <view class="m-menu jhx_bg0">
     <navigator hover-class="none" class="item" url="/pages/category/category?id={{item.id}}" wx:for="{{channel}}" wx:key="id">
       <image src="{{item.iconUrl}}" background-size="cover"></image>
@@ -42,8 +42,8 @@
       <image src="/static/images/channel_category.png" background-size="cover"></image>
       <text class="jhx_f2">更多分类</text>
     </navigator>
-  </view>
-
+  </view>-->
+  <!-- 
   <view class="a-section a-groupon" wx:if="{{groupons.length > 0}}">
     <view class='title acea-row row-between-wrapper'>
       <view class='text'>
@@ -78,7 +78,8 @@
         </navigator>
       </view>
     </view>
-  </view>
+  </view> -->
+  <!--
   <view class="a-section a-topic" wx:if="topics.length > 0">
     <view class="h">
       <view>
@@ -101,8 +102,8 @@
         </view>
       </scroll-view>
     </view>
-  </view>
-  
+  </view>-->
+  <!--
   <view class="a-section a-brand">
     <view class='title acea-row row-between-wrapper'>
       <view class='text'>
@@ -120,13 +121,14 @@
             <view class="mt">
              <!-- <text class="brand">{{item.name}}</text>
               <text class="price">{{item.floorPrice}}</text>
-              <text class="unit">元起</text> -->
+              <text class="unit">元起</text> 
             </view>
           </view>
         </navigator>
       </view>
     </view>
-  </view>
+  </view>-->
+
   <view class="a-section a-new" wx:if="{{newGoods.length > 0}}">
     <view class='title acea-row row-between-wrapper'>
       <view class='text'>
