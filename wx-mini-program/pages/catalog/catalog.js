@@ -4,6 +4,7 @@ var api = require('../../config/api.js');
 Page({
   data: {
     categoryList: [],
+    goodsList: [],
     currentCategory: {},
     currentSubCategoryList: {},
     scrollLeft: 0,
@@ -65,13 +66,34 @@ Page({
   onUnload: function() {
     // 页面关闭
   },
+  getGoodsList: function(id) {
+    var that = this;
+
+    // 切换分类时清空商品列表
+    that.setData({
+        goodsList: [], // 清空旧数据
+    });
+
+    // 调用接口获取新分类商品列表
+    util.request(api.GoodsList, {
+        categoryId: id
+    }).then(function(res) {
+        that.setData({
+            goodsList: res.data.goodsList, // 直接覆盖新数据
+            totalPages: res.data.totalPages // 更新分页信息
+        });
+    }).catch(function(error) {
+        console.error("Failed to load goods list:", error);
+    });
+},
+
   switchCate: function(event) {
     var that = this;
     var currentTarget = event.currentTarget;
     if (this.data.currentCategory.id == event.currentTarget.dataset.id) {
       return false;
     }
-
+    this.getGoodsList(event.currentTarget.dataset.id);
     this.getCurrentCategory(event.currentTarget.dataset.id);
   }
 })

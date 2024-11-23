@@ -8,6 +8,11 @@ import org.apache.ibatis.annotations.Param;
 public interface DtsCategoryMapper {
     List<DtsCategory> selectCategoryList(DtsCategory dtsCategory);
 
+    //只查询有商品关联的分类列表
+    List<DtsCategory> selectCategoryExsitsGoods();
+
+    DtsCategory findById(@Param("id") String id);
+
     void insertCategory(DtsCategory category);
 
     void deleteCategoryById(@Param("id") String id);

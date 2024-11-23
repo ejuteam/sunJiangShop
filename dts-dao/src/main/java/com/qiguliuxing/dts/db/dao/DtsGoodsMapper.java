@@ -9,6 +9,8 @@ import java.util.List;
 public interface DtsGoodsMapper {
     List<DtsGoods> queryGoodsList(DtsGoods dtsGoods);
 
+    List<DtsGoods> queryByCategory(@Param("catId") String catId);
+
     void deleteGoodsById(String id);
 
     void insertDtsGoods(DtsGoods dtsGoods);

@@ -79,6 +79,16 @@ public class DtsCategoryService {
 		//return categoryMapper.selectByExample(example);
 	}
 
+	//查询已关联商品的分类列表
+	public List<DtsCategory>  selectCategoryExsitsGoods(){
+		return categoryMapper.selectCategoryExsitsGoods();
+	}
+
+	//根据ID获取分类
+	public DtsCategory findById(String id) {
+		return categoryMapper.findById(id);
+	}
+
 	/*
 
 	public List<DtsCategory> queryL1(int offset, int limit) {
@@ -104,10 +114,6 @@ public class DtsCategoryService {
 		DtsCategoryExample example = new DtsCategoryExample();
 		example.or().andIdIn(ids).andLevelEqualTo("L2").andDeletedEqualTo(false);
 		return categoryMapper.selectByExample(example);
-	}
-
-	public DtsCategory findById(Integer id) {
-		return categoryMapper.selectByPrimaryKey(id);
 	}
 */
 }

@@ -77,18 +77,10 @@ public class DtsGoodsService {
 	 * 获取分类下的商品
 	 *
 	 * @param catId
-	 * @param offset
-	 * @param limit
 	 * @return
 	 */
-	public List<DtsGoods> queryByCategory(Integer catId, int offset, int limit) {
-		/*DtsGoodsExample example = new DtsGoodsExample();
-		example.or().andCategoryIdEqualTo(catId).andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
-		example.setOrderByClause("add_time desc");
-		PageHelper.startPage(offset, limit);
-
-		return goodsMapper.selectByExampleSelective(example, columns);*/
-		return null;
+	public List<DtsGoods> queryByCategory(String  catId) {
+		return goodsMapper.queryByCategory(catId);
 	}
 
 	public List<DtsGoods> querySelective(Integer catId, Integer brandId, String keywords, Boolean isHot, Boolean isNew,

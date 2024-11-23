@@ -238,22 +238,23 @@ public class WxGoodsController {
 	 *            分类类目ID
 	 * @return 商品分类类目
 	 */
-	/*@GetMapping("category")
+	@GetMapping("category")
 	public Object category(@NotNull Integer id) {
 		logger.info("【请求开始】商品分类类目,请求参数,id:{}", id);
 
-		DtsCategory cur = categoryService.findById(id);
-		DtsCategory parent = null;
-		List<DtsCategory> children = null;
+		DtsCategory cur = categoryService.findById(id.toString());
+		DtsCategory parent = cur;
+		List<DtsCategory> children = new ArrayList<>();
+		children.add(cur);
 
-		if (cur.getPid() == 0) {
+		/*if (cur.getPid() == 0) {
 			parent = cur;
 			children = categoryService.queryByPid(cur.getId());
 			cur = children.size() > 0 ? children.get(0) : cur;
 		} else {
 			parent = categoryService.findById(cur.getPid());
 			children = categoryService.queryByPid(cur.getPid());
-		}
+		}*/
 		Map<String, Object> data = new HashMap<>();
 		data.put("currentCategory", cur);
 		data.put("parentCategory", parent);
@@ -261,7 +262,7 @@ public class WxGoodsController {
 
 		logger.info("【请求结束】商品分类类目,响应结果:{}", JSONObject.toJSONString(data));
 		return ResponseUtil.ok(data);
-	}*/
+	}
 
 	/**
 	 * 根据条件搜素商品
@@ -290,7 +291,7 @@ public class WxGoodsController {
 	 *            排序类型，顺序或者降序
 	 * @return 根据条件搜素的商品详情
 	 */
-	/*@GetMapping("list")
+	@GetMapping("list")
 	public Object list(Integer categoryId, Integer brandId, String keyword, Boolean isNew, Boolean isHot,
 			@LoginUser Integer userId, @RequestParam(defaultValue = "1") Integer page,
 			@RequestParam(defaultValue = "10") Integer size,
@@ -301,22 +302,24 @@ public class WxGoodsController {
 		logger.info("【请求开始】根据条件搜素商品,请求参数,categoryId:{},brandId:{},keyword:{}", categoryId, brandId, keyword);
 
 		// 添加到搜索历史
-		if (userId != null && !StringUtils.isNullOrEmpty(keyword)) {
+		/*if (userId != null && !StringUtils.isNullOrEmpty(keyword)) {
 			DtsSearchHistory searchHistoryVo = new DtsSearchHistory();
 			searchHistoryVo.setKeyword(keyword);
 			searchHistoryVo.setUserId(userId);
 			searchHistoryVo.setFrom("wx");
 			searchHistoryService.save(searchHistoryVo);
-		}
+		}*/
 
 		// 查询列表数据
-		List<DtsGoods> goodsList = goodsService.querySelective(categoryId, brandId, keyword, isHot, isNew, page, size,
-				sort, order);
+		/*List<DtsGoods> goodsList = goodsService.querySelective(categoryId, brandId, keyword, isHot, isNew, page, size,
+				sort, order);*/
+		//public List<DtsGoods> queryGoodsList(String goodsSn, String name, String categoryId,Integer page, Integer size) {
+		List<DtsGoods> goodsList = goodsService.queryByCategory(categoryId.toString());
 		
 		// 查询商品所属类目列表。
 		List<Integer> goodsCatIds = goodsService.getCatIds(brandId, keyword, isHot, isNew);
 		List<DtsCategory> categoryList = null;
-		if (goodsCatIds.size() != 0) {
+		if (goodsCatIds != null && goodsCatIds.size() != 0) {
 			//categoryList = categoryService.queryL2ByIds(goodsCatIds);
 		} else {
 			categoryList = new ArrayList<>(0);
@@ -332,7 +335,7 @@ public class WxGoodsController {
 
 		logger.info("【请求结束】根据条件搜素商品,响应结果:查询的商品数量:{},总数：{},总共 {} 页", goodsList.size(),count,totalPages);
 		return ResponseUtil.ok(data);
-	}*/
+	}
 
 	/**
 	 * 商品详情页面“大家都在看”推荐商品

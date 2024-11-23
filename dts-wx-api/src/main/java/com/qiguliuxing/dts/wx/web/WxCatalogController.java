@@ -41,14 +41,13 @@ public class WxCatalogController {
 	 * @return 分类详情
 	 */
 	@GetMapping("index")
-	public Object index(Integer id) {
+	public Object index(String  id) {
 		logger.info("【请求开始】分类详情,请求参数,id:{}", id);
 		// 所有一级分类目录
 		//List<DtsCategory> l1CatList = categoryService.queryL1();
-		List<DtsCategory> l1CatList = new ArrayList<>();
+		List<DtsCategory> l1CatList = categoryService.selectCategoryExsitsGoods();
 		DtsCategory currentCategory = null;
-		// 当前一级分类目录
-		/*DtsCategory currentCategory = null;
+
 		if (id != null) {
 			currentCategory = categoryService.findById(id);
 		} else {
@@ -57,10 +56,10 @@ public class WxCatalogController {
 
 		// 当前一级分类目录对应的二级分类目录
 		List<DtsCategory> currentSubCategory = null;
-		if (null != currentCategory) {
+		/*if (null != currentCategory) {
 			currentSubCategory = categoryService.queryByPid(currentCategory.getId());
-		}*/
-		List<DtsCategory> currentSubCategory = categoryService.queryCategoryListAll(null,null);
+		}
+		List<DtsCategory> currentSubCategory = categoryService.queryCategoryListAll(null,null);*/
 
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("categoryList", l1CatList);
@@ -140,8 +139,8 @@ public class WxCatalogController {
 		// 当前分类
 		/*DtsCategory currentCategory = categoryService.findById(id);
 		List<DtsCategory> currentSubCategory = categoryService.queryByPid(currentCategory.getId());*/
-		DtsCategory currentCategory = null;
-		List<DtsCategory> currentSubCategory = categoryService.queryCategoryListAll(null,null);
+		DtsCategory currentCategory = categoryService.findById(id.toString());
+		List<DtsCategory> currentSubCategory = categoryService.queryCategoryListAll(id.toString(),null);
 
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("currentCategory", currentCategory);

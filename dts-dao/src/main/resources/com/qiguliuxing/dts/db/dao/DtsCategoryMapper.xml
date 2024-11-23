@@ -21,6 +21,14 @@
         group by t1.id,t1.name
     </select>
 
+    <select id="selectCategoryExsitsGoods" resultMap="CategoryResultMap">
+        select distinct ca.id, ca.name, null as add_time ,null as update_time, null as goods_num from dts_category ca inner join dts_goods gd where ca.id = gd.category_id
+    </select>
+
+    <select id="findById" parameterType="string" resultType="com.qiguliuxing.dts.db.domain.DtsCategory">
+        select id,name,add_time,update_time from dts_category where id = #{id}
+    </select>
+
     <select id="findCategoryByGoodsId" parameterType="string" resultType="com.qiguliuxing.dts.db.domain.DtsCategory">
         select t1.id,t1.name from dts_category t1 inner join dts_goods t2 on t1.id = t2.category_id where 1=1
         <if test="goodsId != '' and goodsId != null">

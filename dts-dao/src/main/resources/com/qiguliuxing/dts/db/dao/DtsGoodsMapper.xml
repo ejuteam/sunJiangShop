@@ -67,6 +67,40 @@
     </if>
   </select>
 
+  <select id="queryByCategory" parameterType="string" resultMap="DtsGoodsResultMap">
+    select
+    t2.name category_name,
+    t1.id,
+    t1.goods_sn,
+    t1.name,
+    t1.is_fresh,
+    t1.brief,
+    t1.detail,
+    t1.category_id,
+    t1.specification_id,
+    t1.is_postage,
+    t1.min_postage,
+    t1.first_weight,
+    t1.postage_fir,
+    t1.postage_sec,
+    t1.is_on_sale,
+    t1.brand_id,
+    t1.gallery,
+    t1.pic_url,
+    t1.unit,
+    t1.retail_price,
+    t1.add_time,
+    t1.update_time,
+    t1.browse,
+    t1.sales
+    from dts_goods t1
+    left join dts_category t2 on t1.category_id = t2.id
+    where 1=1
+    <if test="catId != '' and catId != null">
+      and t1.category_id = #{catId}
+    </if>
+  </select>
+
   <select id="findById" parameterType="string" resultType="com.qiguliuxing.dts.db.domain.DtsGoods">
     select
       t1.id,

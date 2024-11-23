@@ -131,17 +131,30 @@ page {
 }
 
 .catalog .bd {
-  height: auto;
-  width: 100%;
-  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap; /* 自动换行 */
+  gap: 80rpx; /* 设置列间距 */
+  justify-content: flex-start; /* 左对齐 */
 }
 
 .catalog .bd .item {
-  display: block;
-  float: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 0 0 calc(33.33% - 10rpx); /* 每行显示 3 个 */
   height: 200rpx;
-  width: 152rpx;
-  margin-right: 28rpx;
+  width: 400rpx;
+  margin: 10rpx 0;
+  background: #fff;
+  border-radius: 10rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.catalog .bd .item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.2);
 }
 
 .catalog .bd .item.last {
@@ -149,15 +162,21 @@ page {
 }
 
 .catalog .bd .item .icon {
-  height: 152rpx;
-  width: 152rpx;
+  height: 160rpx;
+  width: 160rpx;
+  border-radius: 8rpx;
+  margin-bottom: 10rpx;
 }
 
 .catalog .bd .item .txt {
-  display: block;
-  text-align: center;
-  font-size: 24rpx;
-  color: #333;
-  height: 62rpx;
-  width: 152rpx;
+  font-size: 24rpx;         /* 字体大小 */
+  color: #333;             /* 字体颜色 */
+  text-align: center;      /* 居中对齐 */
+  line-height: 1.5;        /* 行高 */
+  height: 36rpx;           /* 高度（单行显示） */
+  overflow: hidden;        /* 超出部分隐藏 */
+  text-overflow: ellipsis; /* 超出部分省略号 */
+  /*white-space: nowrap;     /* 禁止换行 */
+  width: 200rpx;           /* 限制宽度为10个字的大小 */
+  /*margin: 0 auto;          /* 居中 */
 }
